@@ -235,7 +235,7 @@
 
 							<div class="card">
 								<div class="card-body">
-									<form>
+									<form action="savenewLivre.php" method="post" enctype="multipart/form-data">
 										<div class="row">
 											<div class="col-12">
 												<h5 class="form-title"><span> Livres Information</span></h5>
@@ -243,65 +243,54 @@
 											<div class="col-12 col-sm-6">
 												<div class="form-group">
 													<label>ID</label>
-													<input type="text" class="form-control">
-												</div>
-											</div>
-											<div class="col-12 col-sm-6">
-												<div class="form-group">
-													<label>Titre</label>
-													<input type="text" class="form-control">
+													<input type="text" name="id_Vol" class="form-control">
 												</div>
 											</div>
 
+											<div class="col-12 col-sm-6">
+												<div class="form-group">
+													<label>Titre</label>
+													<input type="text" name="titre" class="form-control">
+												</div>
+											</div>
+
+                      <div class="col-12 col-sm-6 ">
+                        <div class="form-group " >
+                          <label>Image</label>
+                          <input type="file" name="image" id="fileToUpload" class="form-control  " >
+                        </div>
+							      	</div>
 
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>Auteur</label>
-                          <input type="text" class="form-control">
+                          <input type="text" name="auteur" class="form-control">
                         </div>
                       </div>
-
-
 
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>Editeur</label>
-                          <input type="text" class="form-control">
-                        </div>
-                      </div>
-
-
-
-                      <div class="col-12 col-sm-6">
-                        <div class="form-group">
-                          <label>Categorie</label>
-                          <select class="form-control">
-                            <option>Select </option>
-
-                            </select>
+                          <input type="text" name="editeur" class="form-control">
                         </div>
                       </div>
 
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>Emplacement</label>
-                          <input type="text" class="form-control">
+                          <input type="text" name="emplace" class="form-control">
                         </div>
                       </div>
 
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>Status</label>
-                          <input type="text" class="form-control">
+                          <input type="text" name="statut" class="form-control">
                         </div>
                       </div>
 
-
-
-
-
 											<div class="col-12">
-												<button type="submit" class="btn btn-primary">Ajouter</button>
+												<button type="submit" class="btn btn-primary"  name="save">Ajouter</button>
 											</div>
 										</div>
 									</form>
