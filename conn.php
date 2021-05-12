@@ -85,5 +85,51 @@ function listeEtudiant(){
  }
 }
 
+///////**********volume ***********////////
+
+function listeVolumes(){
+	$bdd=$this->connexion();
+	$reponse=$bdd->prepare("select * from volume ORDER BY 'id_Vol'");
+		$reponse->execute();
+		$lst=[];
+		while($ligne=$reponse->fetch()){
+		$lst[]=[$ligne[0],$ligne[1],$ligne[2],$ligne[3],$ligne[4],$ligne[5],$ligne[6]];
+		}
+		$reponse->closeCursor();
+		return $lst;
+}
+function ajouterVolume($id_Vol,$titre,$image,$auteur,$editeur,$emplace,$statut){
+	$bdd=$this->connexion();
+	$reponse=$bdd->prepare("insert into volume values(?,?,?,?,?,?,?)");
+	$reponse->execute([$id_Vol,$titre,$image,$auteur,$editeur,$emplace,$statut]);
+	$reponse->closeCursor();
+}
+
+///////**********livre ***********////////
+function listeLivres(){
+	try {
+		$bdd=$this->connexion();
+		$reponse=$bdd->prepare("select * from volume join livre ON volume.id_Vol=livre.id_Vol ");
+
+			$reponse->execute();
+			$lst=[];
+			while($ligne=$reponse->fetch()){
+			$lst[]=[$ligne[0],$ligne[1],$ligne[2],$ligne[3],$ligne[4],$ligne[5],$ligne[6]];
+			}
+			$reponse->closeCursor();
+			return $lst;
+
+	} catch (Exception $e) {
+		 echo $e->getMessage();
+	}
+}
+ function ajouterLivre($id_Vol){
+  $bdd=$this->connexion();
+  $reponse=$bdd->prepare("insert into livre values(?)");
+  $reponse->execute([$id_Vol]);
+  $reponse->closeCursor();
+}
+
+
 
 ?>
