@@ -233,15 +233,20 @@
 							<div class="card card-table">
 								<div class="card-body">
 									<div class="table-responsive">
+									<?php
+									include("conn.php");
+									$conn=new conn();
+									$liste=$conn->listePolycopes();
+									?>
 										<table class="table table-hover table-center mb-0 datatable">
 											<thead>
 												<tr>
 													<th>ID</th>
 													<th>Titre</th>
+													<th>Image</th>
 													<th>Auteur</th>
 													<th>Editeur</th>
-                          <th>Catégorie</th>
-                          <th>Emplacement</th>
+													<th>Emplacement</th>
 													<th>Status</th>
 
 
@@ -249,8 +254,21 @@
 												</tr>
 											</thead>
 											<tbody>
+											<?php
+												  foreach ($liste as $ls) {
+												echo "<tr>
+												<td>".$ls[0]."</td>
+												<td>".$ls[1]. " </td>
+												<td><img width=100  src='".$ls[2]."'></td>
+												<td>".$ls[3]."</td>
+												<td>".$ls[4]."</td>
+												<td>".$ls[5]."</td>
+												<td>".$ls[6]."</td>
+												</tr>" ;
+												}
 
-											</tbody>
+											?>
+											</tbody>		
 										</table>
 									</div>
 								</div>
