@@ -129,7 +129,30 @@ function listeLivres(){
   $reponse->execute([$id_Vol]);
   $reponse->closeCursor();
 }
-
+///////**********Polycope ***********////////
+function listePolycopes(){
+	$bdd=$this->connexion();
+	$reponse=$bdd->prepare("select * from volume join polycope ON volume.id_vol=polycope.id_vol");
+		$reponse->execute();
+		$lst=[];
+		while($ligne=$reponse->fetch()){
+		$lst[]=[$ligne[0],$ligne[1],$ligne[2],$ligne[3],$ligne[4],$ligne[5],$ligne[6]];
+		}
+		$reponse->closeCursor();
+		return $lst;
+}
+function ajouterPolycope($id_Vol){
+	$bdd=$this->connexion();
+	$reponse=$bdd->prepare("insert into polycope values(?)");
+	$reponse->execute([$id_Vol]);
+	$reponse->closeCursor();
+}
+function supprimerPolycope($id_Vol){
+	$bdd=$this->connexion();
+	$reponse=$bdd->prepare("delete from polycope where id_Vol= ?");
+	$reponse->execute([$id_Vol]);
+		
+}
 
 
 ?>
