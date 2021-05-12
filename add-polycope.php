@@ -230,79 +230,68 @@
 					</div>
 					<!-- /Page Header -->
 
+<div class="row">
+	<div class="col-sm-12">
+
+		<div class="card">
+			<div class="card-body">
+				<form action="savePolycope.php" method="post" enctype="multipart/form-data">
 					<div class="row">
-						<div class="col-sm-12">
+						<div class="col-12">
+							<h5 class="form-title"><span> polycopes Information</span></h5>
+						</div>
+						<div class="col-12 col-sm-6">
+							<div class="form-group">
+								<label>ID</label>
+								<input type="text" name="id_pol" class="form-control">
+							</div>
+						</div>
 
-							<div class="card">
-								<div class="card-body">
-									<form>
-										<div class="row">
-											<div class="col-12">
-												<h5 class="form-title"><span> polycopes Information</span></h5>
-											</div>
-											<div class="col-12 col-sm-6">
-												<div class="form-group">
-													<label>ID</label>
-													<input type="text" class="form-control">
-												</div>
-											</div>
-											<div class="col-12 col-sm-6">
-												<div class="form-group">
-													<label>Titre</label>
-													<input type="text" class="form-control">
-												</div>
-											</div>
+						<div class="col-12 col-sm-6">
+							<div class="form-group">
+								<label>Titre</label>
+								<input type="text" name="tit_pol" class="form-control">
+							</div>
+						</div>
 
+                      <div class="col-12 col-sm-6 ">
+                        <div class="form-group " >
+                          <label>Image</label>
+                          <input type="file" name="image" id="fileToUpload" class="form-control  " >
+                        </div>
+							      	</div>
 
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>Auteur</label>
-                          <input type="text" class="form-control">
+                          <input type="text" name="aut_pol" class="form-control">
                         </div>
                       </div>
-
-
 
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>Editeur</label>
-                          <input type="text" class="form-control">
-                        </div>
-                      </div>
-
-
-
-                      <div class="col-12 col-sm-6">
-                        <div class="form-group">
-                          <label>Categorie</label>
-                          <select class="form-control">
-                            <option>Select </option>
-
-                            </select>
+                          <input type="text" name="ed_pol" class="form-control">
                         </div>
                       </div>
 
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>Emplacement</label>
-                          <input type="text" class="form-control">
+                          <input type="text" name="emp_pol" class="form-control">
                         </div>
                       </div>
 
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>Status</label>
-                          <input type="text" class="form-control">
+                          <input type="text" name="stat_pol" class="form-control">
                         </div>
                       </div>
 
-
-
-
-
-											<div class="col-12">
-												<button type="submit" class="btn btn-primary">Ajouter</button>
-											</div>
+						<div class="col-12">
+							<button type="submit" class="btn btn-primary"  name="ajout">Ajouter</button>
+							</div>
 										</div>
 									</form>
 								</div>
