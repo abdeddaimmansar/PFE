@@ -155,7 +155,18 @@ function updateStudent($cne,$filiere,$annee,$id_Adh)
   }
 }
 
+/////// ******* delete student *******///////
+function supprimerEtudiant($cne){
+	 try {
+		 $bdd = $this->connexion();
+		 $res = $bdd->prepare("delete from Adherent where id_Adh=?");
+		 $res->execute([$cne]);
+	 } catch (Exception $e) {
+	 	  echo $e->getMessage();
+	 }
 
+
+	}
 
 ///////**********volume ***********////////
 
