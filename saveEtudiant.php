@@ -28,8 +28,9 @@
 		 || empty($email) || empty($nbr_emprunt)){
 	 header('location:add-student.php?empty');
  }else{
-	 include("Adherent.php");
-	 $en=new Etudiant($id_Adh,$nom,$prenom,$folder,$depar,$tele,$email,$nbr_emprunt,$cne,$filiere,$annee);
+	   include("Adherent.php");
+	 $en=new Etudiant();
+	 $en->newEntry($id_Adh,$nom,$prenom,$folder,$depar,$tele,$email,$nbr_emprunt,$cne,$filiere,$annee);
 	 $en->addtodata();
 	 header("location:students.php");
 }}
