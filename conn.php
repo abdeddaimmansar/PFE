@@ -1,4 +1,5 @@
 <?php
+ session_start();
 class conn{
 	function __construct(){}
 	function connexion(){
@@ -84,6 +85,77 @@ function listeEtudiant(){
 
  }
 }
+  //////****** update Student ********///////
+   function GetEtudiant($id){
+
+ 	try {
+ 		$bdd=$this->connexion();
+		$reponse=$bdd->prepare("select *
+			  	 from   Adherent INNER JOIN Etudiant WHERE Adherent.id_Adh=? AND Etudiant.id_Adh=?
+								    ");
+
+	 
+ 			$reponse->execute([$id,$id]);
+			$fetch=$reponse->fetch();
+ 			$reponse->closeCursor();
+ 			return $fetch;
+
+ 	} catch (Exception $e) {
+ 		 echo $e->getMessage();
+ 	}
+
+}
+
+ function updateAdherent($id_Adh,$nom_Adh,$prenom,$image,$depar,$tele,$email,$nbr_emprunt)
+{
+	  $id_Adh=$_SESSION['userid'];
+
+ try {
+    $bdd = $this->connexion();
+		$sql =  "UPDATE Adherent
+		 set
+		 nom_Adh='$nom_Adh',
+		 email ='$email',
+		 prenom='$prenom',
+		 depar='$depar',
+		 tele='$tele',
+		 image='$image'
+		 where  id_Adh ='$id_Adh'
+		";
+		$stmt = $bdd->prepare($sql);
+		$stmt->execute();
+		echo "__we done for thos one";
+  } catch (Exception $e) {
+		echo $e->getMessage();
+
+  }
+
+}
+
+function updateStudent($cne,$filiere,$annee,$id_Adh)
+{
+
+	 $id_Adh=$_SESSION['userid'];
+
+
+	try {
+		 $bdd= $this->connexion();
+		$sql =  "UPDATE Etudiant
+		 set
+		  cne='$cne',
+		  filiere ='$filiere',
+		  Annee='$annee'
+			where  id_Adh ='$id_Adh'
+ 		";
+		$stmt = $bdd->prepare($sql);
+		$stmt->execute();
+  } catch (Exception $e) {
+		echo $e->getMessage();
+
+  }
+}
+
+
 
 ///////**********volume ***********////////
 
