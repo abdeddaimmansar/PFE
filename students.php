@@ -236,6 +236,7 @@
                        include("conn.php");
                        $conn=new conn();
                         $liste=$conn->listeEtudiant();
+
                     ?>
                                        <table class="table table-hover table-center mb-0 datatable">
                                          <thead>
@@ -256,27 +257,39 @@
                                            </tr>
                                          </thead>
                                          <tbody>
+
                                             <?php
                                                foreach ($liste as $ls) {
                                                   echo "<tr>
-                                         <td>".$ls[0]."</td>
-                                        <td>".$ls[8]. " </td>
-                                          <td>".$ls[1]."</td>
-                                                       <td>".$ls[2]."</td>
-                                         <td><img width=80 src='".$ls[3]."'></td>
+                                            <td>".$ls[0]."</td>
+                                            <td>".$ls[8]. " </td>
+                                            <td>".$ls[1]."</td>
+                                            <td>".$ls[2]."</td>
+                                            <td><img width=80 src='".$ls[3]."'></td>
                                             <td>".$ls[10]."</td>
-                                              <td>".$ls[4]."</td>
-                                               <td>".$ls[9]."</td>
-                                              <td>".$ls[5]."</td>
-                                             <td>".$ls[6]."</td>
-                                      <td>".$ls[7]."</td>
+                                            <td>".$ls[4]."</td>
+                                            <td>".$ls[9]."</td>
+                                            <td>".$ls[5]."</td>
+                                            <td>".$ls[6]."</td>
+                                            <td>".$ls[7]."</td>
 
 
 
-                                                  </tr>" ;
-                                                }
-
+                                                  " ;
                                             ?>
+                                          <td class="text-right">
+                                            <div class="actions">
+                                                <a href="edit-student.php?id=<?=$ls[0]?>" class="btn btn-sm bg-success-light mr-2">
+                                                   <i class="fas fa-pen"></i>
+                                                </a>
+                                                  <a href="deletStudent.php?id=<?=$ls[0]?>"  class="btn btn-sm bg-danger-light">
+                                                   <i class="fas fa-trash"></i>
+                                                </a>
+                                            </div>
+                                          </td>
+                                          <?php } echo "  </tr>"; ?>
+
+
 
 									</div>
 								</div>
