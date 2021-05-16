@@ -1,3 +1,26 @@
+<?php
+ session_start();
+  /*  session_start();
+    if(!$_SESSION['loggedin'])
+    {
+       header('Location: login.php');
+       exit;
+
+    }*/
+
+      if(ISSET($_GET['id']))
+      {
+
+           $id = $_GET['id'];
+           include("Adherent.php");
+           $student = new Etudiant();
+          $fetch = $student->waytostudent($id);
+
+      }
+
+
+
+ ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -234,34 +257,42 @@
 
 							<div class="card">
 								<div class="card-body">
-									<form>
+									<form action="updateStudent.php" method="POST" enctype="multipart/form-data">
 										<div class="row">
 											<div class="col-12">
 												<h5 class="form-title"><span>Student Information</span></h5>
 											</div>
+                      <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                          <label>image</label>
+                        <img width=50 src='<?php echo $fetch["image"];$_SESSION['userimage'] = $fetch["image"]; ?>' class="form-control" >
+                          <input type="file" name="photo" class="form-control" >
+                        </div>
+                      </div>
 											<div class="col-12 col-sm-6">
 												<div class="form-group">
 													<label>Nom</label>
-													<input type="text" class="form-control">
+													<input type="text" name="nom" class="form-control" value="<?php $_SESSION['userid'] = $fetch["id_Adh"]; echo $fetch["nom_Adh"]; ?>">
 												</div>
 											</div>
 											<div class="col-12 col-sm-6">
 												<div class="form-group">
 													<label>Prénom</label>
-													<input type="text" class="form-control">
+
+													<input type="text" name="prenom" class="form-control" value="<?php echo $fetch["prenom"]; ?>" >
 												</div>
 											</div>
 											<div class="col-12 col-sm-6">
 												<div class="form-group">
 													<label> CNE</label>
-													<input type="text" class="form-control">
+													<input type="text" name="cne" class="form-control" value="<?php echo $fetch["cne"]; ?>">
 												</div>
 											</div>
                       <div class="col-12 col-sm-6">
 												<div class="form-group">
 													<label>Department</label>
-													<select class="form-control">
-                            <option>select</option>
+													<select name="depar" class="form-control">
+                            <option disabled="" value="<?php echo $fetch["depar"]; ?>" >select</option>
                             <option>GI</option>
                             <option>TM</option>
                             <option>GIM</option>
@@ -272,15 +303,15 @@
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>Téléphone</label>
-                          <input type="text" class="form-control">
+                          <input type="text" name="tele" class="form-control" value="<?php echo $fetch["tele"]; ?>">
                         </div>
                       </div>
 
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>Filière</label>
-                          <select class="form-control">
-                            <option>Select </option>
+                          <select name="filiere" class="form-control">
+                            <option disabled="" value="<?php echo $fetch["filiere"]; ?>" >Select </option>
                             <option>GI</option>
                             <option>TM</option>
                             <option>GIM</option>
@@ -293,15 +324,16 @@
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>Email</label>
-                          <input type="text" class="form-control">
+                          <input type="text" name="email" class="form-control" value="<?php echo $fetch["email"]; ?>">
                         </div>
                       </div>
+
 
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>Année</label>
-                          <select class="form-control">
-                            <option>Select </option>
+                          <select name="annee" class="form-control">
+                            <option disabled="" value="<?php echo $fetch["Annee"]; ?>">Select</option>
                             <option>1er Annee</option>
                             <option>2ème Anee</option>
                             <option>LP</option>
@@ -312,9 +344,10 @@
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>nbr_emprunt</label>
-                          <input type="text" class="form-control">
+                          <input type="text" name="nbr_emprunt" class="form-control" value="<?php echo $fetch["nbr_emprunt"]; ?>">
                         </div>
                       </div>
+
 
 
 
@@ -344,8 +377,9 @@
 											</div>
 
 											<div class="col-12">
-												<button type="submit" class="btn btn-primary">Modifier</button>
+												<button type="submit" name="update" class="btn btn-primary">Modifier</button>
 											</div>
+
 										</div>
 									</form>
 								</div>
@@ -354,6 +388,7 @@
 					</div>
 				</div>
 			</div>
+
 			<!-- /Page Wrapper -->
 
         </div>
