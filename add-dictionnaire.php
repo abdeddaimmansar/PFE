@@ -230,52 +230,71 @@
 					</div>
 					<!-- /Page Header -->
 
-					<div class="row">
-						<div class="col-sm-12">
+<div class="row">
+<div class="col-sm-12">
 
-							<div class="card">
-								<div class="card-body">
-									<form>
-										<div class="row">
-											<div class="col-12">
-												<h5 class="form-title"><span> dictionnaire Information</span></h5>
-											</div>
-											<div class="col-12 col-sm-6">
-												<div class="form-group">
-													<label>ID</label>
-													<input type="text" class="form-control">
-												</div>
-											</div>
-											<div class="col-12 col-sm-6">
-												<div class="form-group">
-													<label>Titre</label>
-													<input type="text" class="form-control">
-												</div>
-											</div>
+	<div class="card">
+		<div class="card-body">
+			<form action="saveDictionnaire.php" method="post" enctype="multipart/form-data">
+				<div class="row">
+					<div class="col-12">
+						<h5 class="form-title"><span> dictionnaire Information</span></h5>
+					</div>
+					<div class="col-12 col-sm-6">
+						<div class="form-group">
+							<label>ID</label>
+							<input type="text" name="id_dic" class="form-control">
+						</div>
+					</div>
+					
+					<div class="col-12 col-sm-6">
+						<div class="form-group">
+							<label>Titre</label>
+							<input type="text" name="tit_dic" class="form-control">
+						</div>
+					</div>
 
-
-                      <div class="col-12 col-sm-6">
-                        <div class="form-group">
-                          <label>Auteur</label>
-                          <input type="text" class="form-control">
+					<div class="col-12 col-sm-6 ">
+                        <div class="form-group " >
+                          <label>Image</label>
+                          <input type="file" name="image" id="fileToUpload" class="form-control  " >
                         </div>
-                      </div>
+					</div>
+
+					<div class="col-12 col-sm-6">
+					<div class="form-group">
+						<label>Auteur</label>
+						<input type="text" name="aut_dic" class="form-control">
+					</div>
+					</div>
 
 
 
-                      <div class="col-12 col-sm-6">
-                        <div class="form-group">
-                          <label>Editeur</label>
-                          <input type="text" class="form-control">
-                        </div>
-                      </div>
+					<div class="col-12 col-sm-6">
+					<div class="form-group">
+						<label>Editeur</label>
+						<input type="text" name="ed_dic" class="form-control">
+					</div>
+					</div>
 
 
+					<div class="col-12 col-sm-6">
+					<div class="form-group">
+						<label>Emplacement</label>
+						<input type="text" name="emp_dic" class="form-control">
+					</div>
+					</div>
 
-                      <div class="col-12 col-sm-6">
+					<div class="col-12 col-sm-6">
+					<div class="form-group">
+						<label>Status</label>
+						<input type="text" name="stat_dic" class="form-control">
+					</div>
+					</div>
+					<div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>Language</label>
-                          <select class="form-control">
+                          <select class="form-control" name="lang">
                             <option>Select </option>
                             <option>Arabe </option>
                             <option>Français </option>
@@ -285,27 +304,11 @@
                         </div>
                       </div>
 
-                      <div class="col-12 col-sm-6">
-                        <div class="form-group">
-                          <label>Emplacement</label>
-                          <input type="text" class="form-control">
-                        </div>
-                      </div>
-
-                      <div class="col-12 col-sm-6">
-                        <div class="form-group">
-                          <label>Status</label>
-                          <input type="text" class="form-control">
-                        </div>
-                      </div>
 
 
-
-
-
-											<div class="col-12">
-												<button type="submit" class="btn btn-primary">Ajouter</button>
-											</div>
+					<div class="col-12">
+						<button type="submit" class="btn btn-primary" name="ajout">Ajouter</button>
+					</div>
 										</div>
 									</form>
 								</div>
