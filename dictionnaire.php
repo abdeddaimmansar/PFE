@@ -231,11 +231,12 @@
 							</div>
 							<div class="col-auto text-right float-right ml-auto">
 								<a href="#" class="btn btn-outline-primary mr-2"><i class="fas fa-download"></i> Download</a>
-								<a href="add-dictionnaire.html" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+								<a href="add-dictionnaire.php" class="btn btn-primary"><i class="fas fa-plus"></i></a>
 							</div>
 						</div>
 					</div>
 					<!-- /Page Header -->
+
 
 					<div class="row">
 						<div class="col-sm-12">
@@ -243,22 +244,62 @@
 							<div class="card card-table">
 								<div class="card-body">
 									<div class="table-responsive">
-										<table class="table table-hover table-center mb-0 datatable">
+									<div class="row">
+										<div class="col-sm-12 col-md-6">
+											<div class="dataTables_length" id="DataTables_Table_0_length">
+												<label>SELECT<select name="DataTables_Table_0_length"  aria-controls="DataTables_Table_0" class="custom-select custom-select-sm form-control form-control-sm">
+													<option value="Arabe">Arabe</option>
+													<option value="Français">Français</option>
+													<option value="Anglais">Anglais</option>
+												</select> </label>
+											</div>
+										</div>
+									</div>
+									<?php
+									include("conn.php");
+									$conn=new conn();
+									$liste=$conn->listeDictionnaires();
+									?>
+									<table class="table table-hover table-center mb-0 datatable">
 											<thead>
 												<tr>
 													<th>ID</th>
 													<th>Titre</th>
+													<th>image</th>
 													<th>Auteur</th>
 													<th>Editeur</th>
-                          <th>language</th>
-                          <th>Emplacement</th>
+													<th>Emplacement</th>
 													<th>Status</th>
+													<th>language</th>
 
 
 													<th class="text-right">Action</th>
 												</tr>
 											</thead>
 											<tbody>
+											<?php
+												  foreach ($liste as $ls) {
+												echo "<tr>
+												<td>".$ls[0]."</td>
+												<td>".$ls[1]. " </td>
+												<td><img width=100  src='".$ls[2]."'></td>
+												<td>".$ls[3]."</td>
+												<td>".$ls[4]."</td>
+												<td>".$ls[5]."</td>
+												<td>".$ls[6]."</td>
+												<td>".$ls[7]."</td>
+												<td><a href='edit-dictionnaire.php?id_Vol=$ls[0]' class='btn btn-sm bg-success-light mr-2'>
+																<i class='fas fa-pen'></i>
+													</a>
+                                                    <a href='delete-dictionnaire.php?id_Vol=$ls[0]' class='btn btn-sm bg-danger-light'>
+																<i class='fas fa-trash'></i>
+													</a>
+                                                 </td>
+
+												</tr>" ;
+												}
+
+											?>
 
 											</tbody>
 										</table>
