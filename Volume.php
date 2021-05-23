@@ -62,7 +62,7 @@
 
 
     }
-    class Dictionnaire extends Volume{
+   class Dictionnaire extends Volume{
         public $lang;
       
         function __construct($id_Vol,$tit,$img,$aut,$ed,$emp,$stat,$lang) {
