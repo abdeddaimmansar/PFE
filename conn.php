@@ -237,5 +237,30 @@ function supprimerPolycope($id_Vol){
 		
 }
 
+///////**********Dictionnaire ***********////////
+function listeDictionnaires(){
+	$bdd=$this->connexion();
+	$reponse=$bdd->prepare("select * from volume join dictionnaire ON volume.id_vol=dictionnaire.id_vol");
+		$reponse->execute();
+		$lst=[];
+		while($ligne=$reponse->fetch()){
+		$lst[]=[$ligne[0],$ligne[1],$ligne[2],$ligne[3],$ligne[4],$ligne[5],$ligne[6],$ligne[7]];
+		}
+		$reponse->closeCursor();
+		return $lst;
+}
+function ajouterDictionnaire($lang,$id_Vol){
+	$bdd=$this->connexion();
+	$reponse=$bdd->prepare("insert into dictionnaire values(?,?)");
+	$reponse->execute([$lang,$id_Vol]);
+	$reponse->closeCursor();
+}
+function supprimerDictionnaire($id_Vol){
+	$bdd=$this->connexion();
+	$reponse=$bdd->prepare("delete from dictionnaire where id_Vol= ?");
+	$reponse->execute([$id_Vol]);
+	
+}
+
 
 ?>
