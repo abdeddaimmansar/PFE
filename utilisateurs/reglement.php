@@ -17,10 +17,10 @@
 ?>
 
 
-
-<div class="row">
-<div class="row align-items-center">
-	<div class="col-sm-12">
+<div class="page-wrapper">
+<div class="row ml-md-3 ">
+<div class="row align-items-center ml-md-2" >
+<div class="col-sm-12">
     <h1>Règles de prêt</h1>
     <div id="reglement_ecrire">
 
