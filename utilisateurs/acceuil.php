@@ -15,6 +15,7 @@
 include_once 'nav.php';
 ?>
 
+<div class="page-wrapper">
 <div class="col-lg-12">
 <div class="tableau">
 
