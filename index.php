@@ -1,9 +1,9 @@
 <?php
  session_start();
 // If the user is not logged in redirect to the login page...
-if (!isset($_SESSION['loggedin'])) {
+if (!isset($_SESSION['loggedin'])|| $_SESSION['loggedin']=false ) {
 	header('Location: login.php');
-	exit;
+	die();
 }?>
 
 <!DOCTYPE html>
@@ -150,17 +150,18 @@ if (!isset($_SESSION['loggedin'])) {
         <li class="submenu">
           <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Teachers</span> <span class="menu-arrow"></span></a>
           <ul>
-            <li><a href="teachers.html">Teacher List</a></li>
+            <li><a href="teachers.php">Teacher List</a></li>
             <li><a href="add-teacher.php">Teacher Add</a></li>
-            <li><a href="edit-teacher.html">Teacher Edit</a></li>
+            <li><a href="edit-teacher.php">Teacher Edit</a></li>
           </ul>
         </li>
         <li class="submenu">
           <a href="#"><i class="fas fa-building"></i> <span> Liste des emprunteurs</span> <span class="menu-arrow"></span></a>
           <ul>
 
-            <li><a href="emprunte-etudiants.html">Liste des étudiants</a></li>
-            <li><a href="emprunte-enseignants.html">Liste des enseignants</a></li>
+            <li><a href="emprunte-etudiants.php">Liste des étudiants</a></li>
+            <li><a href="emprunte-enseignants.php">Liste des enseignants</a></li>
+            <li><a href="add-emprunteur.php">Add emprunteur</a></li>
           </ul>
         </li>
         <li class="submenu">
@@ -168,8 +169,8 @@ if (!isset($_SESSION['loggedin'])) {
           <ul>
             <li><a href="#"><i class="fas fa-book-reader"></i> <span> Categorie</span> <span class="menu-arrow"></span></a>
                 <ul>
-                  <li><a href="categorie.html"> List</a></li>
-                  <li><a href="add-categorie.html">Add</a></li>
+                  <li><a href="categorie.php"> List</a></li>
+                  <li><a href="add-categorie.php">Add</a></li>
                 </ul>
             </li>
             <li>
@@ -179,8 +180,8 @@ if (!isset($_SESSION['loggedin'])) {
                  <a href="#"><i class="fas fa-book"></i> <span>Livres</span><span class="menu-arrow"></span></a>
                   <ul>
 
-                 <li><a href="livres.html"> List</a></li>
-                 <li><a href="add-livre.html"> Add</a></li>
+                 <li><a href="livres.php"> List</a></li>
+                 <li><a href="add-livre.php"> Add</a></li>
 
                    </ul>
             </li>
@@ -303,7 +304,7 @@ if (!isset($_SESSION['loggedin'])) {
 					</div>
 					<!-- /Overview Section -->
 
-				
+
 				<!-- Footer -->
 				<footer>
 					<p>École Supérieure de Technologie - SAFI.</p>
