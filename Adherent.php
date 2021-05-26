@@ -94,6 +94,16 @@ public  function addtodata()
 
 
   }
+  function emprunterEtu($id_vol,$cin,$duree)
+  {
+
+    include("conn.php");
+    $conn= new conn();
+
+    $conn->volumeStudent($id_vol,$cin,$duree);
+
+
+  }
 }
     class Enseignant extends Adherent{
 
@@ -108,7 +118,16 @@ public  function addtodata()
             parent:: addtodata();
 		        $con->ajouterEnseignant($this->id_Adh);
         }
+      function emprunterTea($id_vol,$cin,$duree)
+        {
 
+          include("conn.php");
+          $conn= new conn();
+
+          $conn->volumeTeacher($id_vol,$cin,$duree);
+
+
+        }
 
     }
 
