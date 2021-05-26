@@ -187,6 +187,25 @@ function ajouterVolume($id_Vol,$titre,$image,$auteur,$editeur,$emplace,$statut){
 	$reponse->execute([$id_Vol,$titre,$image,$auteur,$editeur,$emplace,$statut]);
 	$reponse->closeCursor();
 }
+function GetVolume($id){
+
+try {
+ $bdd=$this->connexion();
+ $reponse=$bdd->prepare("select *
+        from   Volume INNER JOIN Livre WHERE Volume.id_vol=? AND Livre.id_vol=?
+                 ");
+
+
+   $reponse->execute([$id,$id]);
+   $fetch=$reponse->fetch();
+   $reponse->closeCursor();
+   return $fetch;
+
+} catch (Exception $e) {
+  echo $e->getMessage();
+}
+
+}
 
 ///////**********livre ***********////////
 function listeLivres(){
@@ -236,6 +255,26 @@ function supprimerPolycope($id_Vol){
 	$reponse->execute([$id_Vol]);
 		
 }
+function GetPoly($id){
+
+try {
+ $bdd=$this->connexion();
+ $reponse=$bdd->prepare("select *
+        from   Volume INNER JOIN Polycope WHERE Volume.id_vol=? AND Polycope.id_vol=?
+                 ");
+
+
+   $reponse->execute([$id,$id]);
+   $fetch=$reponse->fetch();
+   $reponse->closeCursor();
+   return $fetch;
+   header('location :index.php');
+
+} catch (Exception $e) {
+  echo $e->getMessage();
+}
+
+}
 
 ///////**********Dictionnaire ***********////////
 function listeDictionnaires(){
@@ -261,6 +300,88 @@ function supprimerDictionnaire($id_Vol){
 	$reponse->execute([$id_Vol]);
 	
 }
+ /********************** ADD emprunetur ***************************/
+  function volumeStudent($id_vol,$cin,$duree)
+  {
+     try {
+       echo "blalalalalalalalal";
+      $date = date('Y-m-d');
+      $duree = date('Y-m-d', strtotime( $d . " +".$duree." days"));
+
+
+
+       $bdd = $this->connexion();
+
+       $response=$bdd->prepare("insert into emprunter_Etud values(?,?,?,?)");
+        $response->execute([$id_vol,$cin,$date,$duree]);
+          echo "done!";
+     } catch (Exception $e) {
+       echo $e->getMessage();
+     }
+
+
+  }
+  function volumeTeacher($id_vol,$cin,$duree)
+  {
+     try {
+       echo "blalalalalalalalal";
+      $date = date('Y-m-d');
+      $duree = date('Y-m-d', strtotime( $d . " +".$duree." days"));
+
+
+
+       $bdd = $this->connexion();
+
+       $response=$bdd->prepare("insert into emprunter_Ens values(?,?,?,?)");
+        $response->execute([$id_vol,$cin,$date,$duree]);
+          echo "done!";
+     } catch (Exception $e) {
+       echo $e->getMessage();
+     }
+
+
+  }
+  function EmpStudent(){
+
+    try {
+      $bdd = $this->connexion();
+      $reponse=$bdd->prepare("select*from
+                            emprunter_Etud INNER JOIN Adherent ON emprunter_Etud.cin=Adherent.cin
+                            INNER JOIN Volume ON Volume.id_vol=emprunter_Etud.id_vol
+                              ");
+
+      $reponse->execute();
+      $fetch=$reponse->fetchAll();
+      echo "donne!";
+      return $fetch;
+      echo "done!";
+    } catch (Exception $e) {
+       echo $e->getMessage();
+    }
+
+
+}
+function EmpTeacher(){
+
+  try {
+    $bdd = $this->connexion();
+    $reponse=$bdd->prepare("select*from
+                          emprunter_Ens INNER JOIN Adherent ON emprunter_Ens.cin=Adherent.cin
+                          INNER JOIN Volume ON Volume.id_vol=emprunter_Ens.id_vol
+                            ");
+
+    $reponse->execute();
+    $fetch=$reponse->fetchAll();
+    echo "donne!";
+    return $fetch;
+    echo "done!";
+  } catch (Exception $e) {
+     echo $e->getMessage();
+  }
+
+
+}
+
 
 
 ?>
