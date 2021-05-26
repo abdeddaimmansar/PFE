@@ -1,3 +1,11 @@
+<?php
+include 'conn.php';
+$teacher = new conn();
+$fetch  = $teacher->EmpTeacher();
+
+
+
+ ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -256,6 +264,28 @@
 													<th class="text-right">Action</th>
 												</tr>
 											</thead>
+                      <?php foreach ($fetch as $emprunter) {
+
+                        ?>
+                        <tr>
+                          <td><?php echo $emprunter["nom_Adh"]; ?></td>
+                          <td><?php echo $emprunter["titre"]; ?></td>
+                           <td><?php echo $emprunter["date_emp"]; ?></td>
+                           <td><?php echo $emprunter["dateRet"]; ?></td>
+                           <td class="text-right">
+                             <div class="actions">
+                                 <a href="edit-emprunteur.php?ETcin=<?=$ls[0]?>" class="btn btn-sm bg-success-light mr-2">
+                                    <i class="fas fa-pen"></i>
+                                 </a>
+                                   <a href="edit-emprunter.php?DTcin=<?=$ls[0]?>"  class="btn btn-sm bg-danger-light">
+                                    <i class="fas fa-trash"></i>
+                                 </a>
+                             </div>
+                           </td>
+                        </tr>
+
+                              </tbody>
+                            <?php } ?>
 
 										</table>
 									</div>
