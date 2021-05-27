@@ -1,0 +1,40 @@
+
+
+  #reglement_ecrire h2 {
+    
+    padding-right: 100;
+    padding-left: 150px; 
+      font-size:27px;
+      color: #009ce7;
+      }
+  #reglement_ecrire ul li{
+    
+    padding-right: 100;
+    padding-left: 150px; 
+      font-size: large;
+     
+      
+  }
+ 
+  .cards .card{
+    
+    background-color: rgb(207, 212, 212) !important;
+    margin-left: 1px;
+  }
+  
+  .cards a{
+    color:rgb(8, 8, 8);
+    font-weight: 20px;
+  }
+
+
+  .cards a:hover {
+    color: rgb(39, 219, 33);
+    background-color: transparent;
+    /* text-decoration: underline; */
+  }
+  
+  #top-footer {
+    background-color: aqua;
+  
+}
