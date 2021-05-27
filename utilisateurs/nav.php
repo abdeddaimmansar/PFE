@@ -11,7 +11,7 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,400&display=swap">
 
 		<!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.css">
 
 		<!-- Fontawesome CSS -->
 		<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
@@ -19,6 +19,8 @@
 
 		<!-- Main CSS -->
         <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/reg.css">
+		
     </head>
     <body>
 
@@ -33,7 +35,9 @@
                     <a class="logo">
 						<img src="assets/img/eca-logo.png" alt="Logo">
 					</a>
-                    
+                    <a href="index.php" class="logo logo-small">
+						<img src="assets/img/biblio.png" alt="Logo" width="30" height="30">
+					</a>
 					
                 </div>
 				<!-- /Logo -->
@@ -94,16 +98,16 @@
 					<!-- User Menu -->
 					<li class="nav-item dropdown has-arrow">
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-							<span class="user-img"><img class="rounded-circle" src="" width="31" alt="Ryan Taylor"></span>
+							<span class="user-img"><img class="rounded-circle" src="assets/img/profiles/avatar-01.jpg" width="31" alt="Ryan Taylor"></span>
 						</a>
 						<div class="dropdown-menu">
 							<div class="user-header">
 								<div class="avatar avatar-sm">
-									<img src="" alt="User Image" class="avatar-img rounded-circle">
+									<img src="assets/img/profiles/avatar-01.jpg" alt="User Image" class="avatar-img rounded-circle">
 								</div>
 								<div class="user-text">
-									<h6></h6>
-									<p class="text-muted mb-0"></p>
+									<h6>fff</h6>
+									<p class="text-muted mb-0 ">aaa</p>
 								</div>
 							</div>
 							<a class="dropdown-item" href="profile.php">My Profile</a>
@@ -141,7 +145,7 @@
     </div>
           </div>
       </div>
- 
 
-    </body>
-</html>
+
+
+ 
