@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="css/reg.css"/>
+<link rel="stylesheet" href="assets/css/reg.css"/>
 
 
 
@@ -18,51 +18,46 @@
 
 
 <div class="page-wrapper">
-<div class="row ml-md-3 ">
-<div class="row align-items-center ml-md-2" >
-<div class="col-sm-12">
-    <h1>Règles de prêt</h1>
-    <div id="reglement_ecrire">
+    <div class="row ml-md-3 ">
+        <div class="row align-items-center ml-5 " >
+            <div class="col-sm-12 ">
+                <h1 class=" bg-info p-2 text-light text-center font-weight-bold">Règles de prêt</h1>
+                <div class="mr-5">
 
-  <h2> Pour Enseignants:</h2>
-      <ul>
-          <li>-La bibliothèque est constituée d'ouvrages déstinés aux prêt et d'autres pour la consultation sur place.</li>
-          <li>-Le nombre d'ouvrages autorisé pour le prêt est limité à quatre.</li>
-          <li>-La durée maximale de prêt est de dix jours.</li>
-          <li>-L'accès à la salle de lecture pour consultation sur place,peut se faire même en dehors des horaires 
-   administratifs,suivant les besoins et les disponibilités.</li>
-      </ul>
+                    <h2 class="text-info "> Pour Enseignants:</h2>
+                        <ul>
+                            <li>-La bibliothèque est constituée d'ouvrages déstinés aux prêt et d'autres pour la consultation sur place.</li>
+                            <li>-Le nombre d'ouvrages autorisé pour le prêt est limité à quatre.</li>
+                            <li>-La durée maximale de prêt est de dix jours.</li>
+                            <li>-L'accès à la salle de lecture pour consultation sur place,peut se faire même en dehors des horaires 
+                    administratifs,suivant <br> les besoins et les disponibilités.</li>
+                        </ul>
 
-  <h2>Pour Etudiants:</h2>
-      <ul>
-          <li>-La bibliothèque est ouverte aux étudiants de l'Ecole sur présentation de la carte de la bibliothèque.</li>
-          <li>-La bibliothèque est constituée d'ouvrages déstinés aux prêt et d'autres pour la consultation sur place.</li>
-          <li>-Le nombre d'ouvrages autorisé pour le prêt est limité à 01.</li>
-          <li>-La durée maximale de prêt est de 05 jours.</li>
-          <li>-L'accès à la salle de lecture pour consultation sur place,peut se faire même en dehors des horaires 
-   administratifs,suivant les besoins et les disponibilités.</li>
-          <li>-Les ouvrages doivent faire l'objet de bons afin de les maintenir en bon état. Toute dégradation sera sanctionnée
-   par la réparation ou même l'achat de l'ouvrage détérioré.</li>
-          <li>-L'accès aux rayonnages est formellement interdit.</li>
-          <li>-Les étudiants sont informés de la liste des ouvrages disponibles ainsi que des nouvelles acquisitions par 
-   voie d'affichage et par listing.</li>
-      </ul>
-  
+                    <h2 class="text-info ">Pour Etudiants:</h2>
+                        <ul>
+                            <li>-La bibliothèque est ouverte aux étudiants de l'Ecole sur présentation de la carte de la bibliothèque.</li>
+                            <li>-La bibliothèque est constituée d'ouvrages déstinés aux prêt et d'autres pour la consultation sur place.</li>
+                            <li>-Le nombre d'ouvrages autorisé pour le prêt est limité à 01.</li>
+                            <li>-La durée maximale de prêt est de 05 jours.</li>
+                            <li>-L'accès à la salle de lecture pour consultation sur place,peut se faire même en dehors des horaires 
+                    administratifs,suivant les besoins et les disponibilités.</li>
+                            <li>-Les ouvrages doivent faire l'objet de bons afin de les maintenir en bon état. Toute dégradation sera sanctionnée
+                    par la réparation ou même l'achat de l'ouvrage détérioré.</li>
+                            <li>-L'accès aux rayonnages est formellement interdit.</li>
+                            <li>-Les étudiants sont informés de la liste des ouvrages disponibles ainsi que des nouvelles acquisitions par 
+                    voie d'affichage et par listing.</li>
+                        </ul>
+            
+                </div>
+        </div>
+        </div>
+
+        
+    </div>
 </div>
-</div>
-</div>
+        <!-- /Footer -->
 
     
-</div>
-</div>
-	<!-- /Footer -->
-
-</div>
-<!-- /Page Wrapper -->
-
-
-
-</div>
 <!-- /Main Wrapper -->
 
 <!-- jQuery -->
@@ -70,7 +65,7 @@
 
 <!-- Bootstrap Core JS -->
 <script src="assets/js/popper.min.js"></script>
-<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/plugins/bootstrap/js/bootstrap.js"></script>
 
 <!-- Slimscroll JS -->
 <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
