@@ -18,14 +18,14 @@
 		<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
 
 		<!-- Main CSS -->
-        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/style1.css">
         <link rel="stylesheet" href="assets/css/reg.css">
 		
     </head>
     <body>
 
 		<!-- Main Wrapper -->
-        <div class="main-wrapper">
+<div class="main-wrapper">
 
 			<!-- Header -->
             <div class="header">
@@ -36,7 +36,7 @@
 						<img src="assets/img/eca-logo.png" alt="Logo">
 					</a>
                     <a href="index.php" class="logo logo-small">
-						<img src="assets/img/biblio.png" alt="Logo" width="30" height="30">
+						<img src="assets/img/Cadi-Ayyad-logo.png" alt="Logo" width="30" height="30">
 					</a>
 					
                 </div>
@@ -46,14 +46,7 @@
 					<i class="fas fa-align-left"></i>
 				</a>
 
-				<!-- Search Bar -->
-				<div class="top-nav-search">
-					<form>
-						<input type="text" class="form-control" placeholder="Search here">
-						<button class="btn" type="submit"><i class="fas fa-search"></i></button>
-					</form>
-				</div>
-				<!-- /Search Bar -->
+				
 
 				<!-- Mobile Menu Toggle -->
 				<a class="mobile_btn" id="mobile_btn">
@@ -95,19 +88,19 @@
 					</li>
 					<!-- /Notifications -->
 
-					<!-- User Menu -->
-					<li class="nav-item dropdown has-arrow">
+						<!-- User Menu -->
+						<li class="nav-item dropdown has-arrow">
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-							<span class="user-img"><img class="rounded-circle" src="assets/img/profiles/avatar-01.jpg" width="31" alt="Ryan Taylor"></span>
+							<span class="user-img"><img class="rounded-circle" src="assets/img/profiles/avatar-02.jpg" width="31" alt="Ryan Taylor"></span>
 						</a>
 						<div class="dropdown-menu">
 							<div class="user-header">
 								<div class="avatar avatar-sm">
-									<img src="assets/img/profiles/avatar-01.jpg" alt="User Image" class="avatar-img rounded-circle">
+									<img src="assets/img/profiles/avatar-02.jpg" alt="User Image" class="avatar-img rounded-circle">
 								</div>
 								<div class="user-text">
-									<h6>fff</h6>
-									<p class="text-muted mb-0 ">aaa</p>
+									<h6>Rawbati Ilham</h6>
+									<p class="text-muted mb-0">Administrateur</p>
 								</div>
 							</div>
 							<a class="dropdown-item" href="profile.php">My Profile</a>
@@ -123,29 +116,29 @@
 			<!-- /Header -->
 
 			<!-- Sidebar -->
-      <div class="sidebar" id="sidebar">
-          <div class="sidebar-inner slimscroll">
-    <div id="sidebar-menu" class="sidebar-menu">
-      <ul>
-        <li class="menu-title">
-          <span>Main Menu</span>
-        </li>
-        <li class="active">
-          <a href="acceuil.php"><i class="fas fa-th-large"></i> <span>Acceuil</span></a>
-        </li>
-        <li class="active">
-          <a href="reglement.php"><i class="far fa-file-alt"></i> <span>Reglement</span> </a>
-         
-        </li>
-        <li class="active">
-          <a href="Listecategories.php"><i class="fas fa-book-reader"></i> <span>Catégories</span> </a>
-         
-        </li>
-      </ul>
-    </div>
-          </div>
-      </div>
-
+			<div class="sidebar" id="sidebar">
+				<div class="sidebar-inner slimscroll">
+					<div id="sidebar-menu" class="sidebar-menu">
+						<ul>
+							<li class="menu-title">
+							<span>Main Menu</span>
+							</li>
+							<li class="active">
+							<a href="acceuil.php"><i class="fas fa-th-large"></i> <span>Acceuil</span></a>
+							</li>
+							<li class="active">
+							<a href="reglement.php"><i class="far fa-file-alt"></i> <span>Reglement</span> </a>
+							
+							</li>
+							<li class="active">
+							<a href="Listecategories.php"><i class="fas fa-book-reader"></i> <span>Catégories</span> </a>
+							
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		<!-- /Sidebar -->
 
 
  
