@@ -1,19 +1,19 @@
 <style>
 h2 { color: #0a4870; font-weight: 500;}
 .cards ul { display: flex; flex-wrap: wrap; list-style: none; padding: 0; width:30%;height:25%;}
-ul .booking-card { position: relative; width: 300px;height:400px; display: flex; flex: 0 0 300px; flex-direction: column;border: groove; margin: 20px; margin-bottom: 30px; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; overflow: hidden;  background-size: cover; text-align: center; color: #0a4870; transition: .3s;}
+ul .booking-card { position: relative; width: 300px;height:300px; display: flex; flex: 0 0 300px; flex-direction: column;border: groove; margin: 20px; margin-bottom: 30px; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; overflow: hidden;  background-size: cover; text-align: center; color: #0a4870; transition: .3s;}
 ul .booking-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 72, 112, 0); transition: .3s;}
 ul .booking-card .book-container { height: 200px;}
 ul .booking-card .book-container .content { position: relative; opacity: 0; display: flex; align-items: center; justify-content: center; height: 100%; width: 100%; transform: translateY(-200px); transition: .3s;}
-ul .booking-card .book-container .content .btn { border: 3px solid white; padding: 10px 15px; background: none; text-transform: uppercase; font-weight: bold; font-size: 1.3em; color: white; cursor: pointer; transition: .3s;}
+ul .booking-card .book-container .content .btn { border: 3px solid white; padding: 10px 15px; background: none; font-size: 12px;   color: white; cursor: pointer; transition: .3s;}
 ul .booking-card .book-container .content .btn:hover { background: white; border: 0px solid white; color: #0a4870;}
-ul .booking-card .informations-container { flex: 0.3 0.4 auto; height:25px; padding: 2px; background: rgba(76, 67, 67, 0.41);  transform: translateY(20px); transition: .3s;}
+ul .booking-card .informations-container { flex: 0.5 0.4 auto; height:25px; padding: 2px; background: rgba(76, 67, 67, 0.41);   transition: .3s;}
 ul .booking-card .informations-container .title { position: relative; padding-bottom: 10px;color:black; margin-bottom: 10px; font-weight: bold; }
 ul .booking-card .informations-container .title::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; width: 50px; margin: auto; background: black;}
 
 ul .booking-card:hover::before { background: rgba(10, 72, 112, 0.6);}
 ul .booking-card:hover .book-container .content { opacity: 1; transform: translateY(0px);}
-ul .booking-card:hover .informations-container { transform: translateY(150px);}
+ul .booking-card:hover .informations-container { transform: translateY(10px);}
 @media (max-width: 768px) {
   ul .booking-card::before {  background: rgba(10, 72, 112, 0.6); }
   ul .booking-card .book-container .content {  opacity: 1;  transform: translateY(0px);}
@@ -61,7 +61,7 @@ include_once 'nav.php';
                             <div class="book-container">
                                 <div class="content">
                                     <a href="ListeLivres.php?categorie=<?php echo $output["titre"];?>">
-                                    <button class="btn">Voir tout</button></a>
+                                    <button class="btn">Voir plus <br> d'Information</button></a>
                                 </div>
                             </div>
                             <div class="informations-container">
