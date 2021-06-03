@@ -1,16 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="assets/css/reg.css"/>
-
-
-
-<title>Reglement</title>
-</head>
-
-
-<body>
-<header>
 
 <?php
         include_once 'nav.php';
@@ -18,10 +5,11 @@
 
 
 <div class="page-wrapper">
-    <div class="row ml-md-3 ">
-        <div class="row align-items-center ml-5 " >
+<div class="content container-fluid"> 
+    <h1 class=" bg-info p-2 text-light text-center font-weight-bold">Règles de prêt</h1>
+    <div class="row ml-md-3 "> 
             <div class="col-sm-12 ">
-                <h1 class=" bg-info p-2 text-light text-center font-weight-bold">Règles de prêt</h1>
+              
                 <div class="mr-5">
 
                     <h2 class="text-info "> Pour Enseignants:</h2>
@@ -49,14 +37,15 @@
                         </ul>
             
                 </div>
-        </div>
+            </div>
         </div>
 
         
     </div>
 </div>
         <!-- /Footer -->
-
+</div>
+</div>
     
 <!-- /Main Wrapper -->
 
@@ -65,7 +54,7 @@
 
 <!-- Bootstrap Core JS -->
 <script src="assets/js/popper.min.js"></script>
-<script src="assets/plugins/bootstrap/js/bootstrap.js"></script>
+<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 
 <!-- Slimscroll JS -->
 <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
