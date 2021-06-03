@@ -30,14 +30,21 @@ public function authentifier($username,$PASSWORD){
         }
  }
  ////////////////////////////***********Livres *************///////////////////////////////
- public function listeLivres($cat){ 
+ public function listeLivres(){ 
 	try{
+		if(isset($_GET['categorie']))
+		{
+		  $cat = $_GET['categorie'];
 		   $bdd = $this->connexion();
-		   $sql = 'SELECT volume.titre, volume.image, volume.STATUS  from volume JOIN livre ON volume.id_Vol=livre.id_Vol  WHERE livre.categorie = '.$cat;
+		   $sql = "SELECT *  from volume JOIN livre ON volume.id_Vol=livre.id_Vol  WHERE livre.categorie = '$cat' ";
 		   $stmt = $bdd->prepare($sql);
-		   $stmt->execute([$ca]);
+		   $stmt->execute();
 		   $result = $stmt->fetchAll();
 		   return $result;
+		}
+		else {
+		   echo "error";
+		}
 	   }catch(Exception $ex){
 			   echo ($ex -> getMessage());
 	   }
