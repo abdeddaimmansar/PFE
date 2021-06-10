@@ -29,6 +29,26 @@ public function authentifier($username,$PASSWORD){
                 echo ($ex -> getMessage());
         }
  }
+   ////////////////////////////***********Volume *************///////////////////////////////
+  public function listeVolume(){ 
+	try{
+		if(isset($_GET['id_vol']))
+		{
+		  $id = $_GET['id_vol'];
+		   $bdd = $this->connexion();
+		   $sql = "SELECT *  from volume  WHERE id_vol = '$id' ";
+		   $stmt = $bdd->prepare($sql);
+		   $stmt->execute();
+		   $result = $stmt->fetchAll();
+		   return $result;
+		}
+		else {
+		   echo "error";
+		}
+	   }catch(Exception $ex){
+			   echo ($ex -> getMessage());
+	   }
+}
  ////////////////////////////***********Livres *************///////////////////////////////
  public function listeLivres(){ 
 	try{
@@ -49,12 +69,13 @@ public function authentifier($username,$PASSWORD){
 			   echo ($ex -> getMessage());
 	   }
 }
-public function nbrLivres(){ 
+public function nbrLivres($cat){ 
 	try{
+		   
 		   $bdd = $this->connexion();
-		   $sql = "SELECT COUNT(*) FROM livre;" ;
+		   $sql = "SELECT COUNT(*) FROM livre where categorie = ?;" ;
 		   $stmt = $bdd->prepare($sql);
-		   $stmt->execute();
+		   $stmt->execute([$cat]);
 		   $count = $stmt->fetchColumn();
 		   return $count;
 	   }catch(Exception $ex){
@@ -64,19 +85,34 @@ public function nbrLivres(){
  ////////////////////////////***********Polycopes *************///////////////////////////////
 public function listePolycope(){ 
 	try{
+		if(isset($_GET['categorie']))
+		{
+		  $cat = $_GET['categorie'];
 		   $bdd = $this->connexion();
-		   $sql = "SELECT id_cat, liblecat, image FROM categorie ORDER BY liblecat";
-	   
+		   $sql = "SELECT *  from volume JOIN polycope ON volume.id_Vol=polycope.id_Vol  WHERE polycope.categorie = '$cat' ";
 		   $stmt = $bdd->prepare($sql);
 		   $stmt->execute();
-		   $result = $stmt->fetchAll();
-		   return $result;
-
+		   $resultat = $stmt->fetchAll();
+		   return $resultat;
+		}
+		else {
+		   echo "error";
+		}
 	   }catch(Exception $ex){
 			   echo ($ex -> getMessage());
 	   }
 }
-
-
+public function nbrPolycopes($cat){ 
+	try{
+		   $bdd = $this->connexion();
+		   $sql = "SELECT COUNT(*) FROM polycope where categorie = ?;" ;
+		   $stmt = $bdd->prepare($sql);
+		   $stmt->execute([$cat]);
+		   $count = $stmt->fetchColumn();
+		   return $count;
+	   }catch(Exception $ex){
+			   echo ($ex -> getMessage());
+	   }
+}
 }
 
