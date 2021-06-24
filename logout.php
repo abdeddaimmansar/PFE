@@ -1,6 +1,6 @@
 <?php
 session_start();
 session_destroy();
-exit;
-// Redirect to the login page:
+ unset($_SESSION['loggedin']);
+ echo "logg is ".$_SESSION['loggedin'];
 header('Location: login.php');?>

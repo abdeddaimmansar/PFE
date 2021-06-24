@@ -4,24 +4,28 @@
  {
    header("location: logout.php");
  }
- //$id = $_SESSION['id_vol'];
- include("conn.php");
- $vol = new conn();
-//$fetch = $vol->GetVolume($id);
 
-    if(ISSET($_GET['cin']))
+
+if(isset($_GET['cin']) && !empty($_GET['cin']) AND isset($_GET['id_vol']) && !empty($_GET['id_vol']))
+
     {
-
-        $cin = $_GET['cin'];
-         include("Adherent.php");
-         $student = new Enseignant();
-        $liste = $student->waytostudent($cin);
-
+         $cin = $_GET['cin'];
+         include_once("Adherent.php");
+         $student = new Etudiant();
+         $liste = $student->waytostudent($cin);
 
 
+           include_once("conn.php");
+           $vol = new conn();
+            $fetch = $vol->GetVolume($_GET['id_vol']);
+            if(empty($fetch))
+            {
+               $fetch = $vol->GetPoly($_GET['id_vol']);
+            }
+           $_SESSION['fetch']= $fetch;
 
 
-      }
+    }
 
 
 
@@ -62,7 +66,7 @@
 						<img src="assets/img/eca-logo.png" alt="Logo">
 					</a>
 					<a href="index.php" class="logo logo-small">
-									<img src="assets/img/Cadi-Ayyad-logo.png" alt="Logo" width="30" height="30">
+            <img src="assets/img/Cadi-Ayyad-logo.png" alt="Logo" width="30" height="30">
 					</a>
                 </div>
 				<!-- /Logo -->
@@ -71,14 +75,7 @@
 					<i class="fas fa-align-left"></i>
 				</a>
 
-				<!-- Search Bar -->
-				<div class="top-nav-search">
-					<form action="searchstudent.php" method="post" >
-						<input type="text" class="form-control" placeholder="Search here">
-						<button class="btn" name="search" type="submit"><i class="fas fa-search"></i></button>
-					</form>
-				</div>
-				<!-- /Search Bar -->
+
 
 				<!-- Mobile Menu Toggle -->
 				<a class="mobile_btn" id="mobile_btn">
@@ -91,38 +88,25 @@
 
 					<!-- Notifications -->
           <li class="nav-item dropdown noti-dropdown">
-            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-              <i class="far fa-bell"></i> <span class="badge badge-pill"></span>
-            </a>
-            <div class="dropdown-menu notifications">
-              <div class="topnav-dropdown-header">
-                <span class="notification-title">Notifications</span>
-                <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
-              </div>
-              <div class="noti-content">
-                <ul class="notification-list">
-                  <?php
-                  include("Volume.php");
-                  $vol = new Volume();
-                  $reservation = $vol->Reservation();
-                   foreach ($reservation as $reser){ ?>
+						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+							<i class="far fa-bell"></i> <span class="badge badge-pill"></span>
+						</a>
+            <div class="noti-content">
+              <ul class="notification-list">
 
-                  <li class="notification-message">
-                    <a href="#">
-                      <div class="media">
-                       <?php echo $reser["nom_Adh"]." Reserver Volume  ".$reser["titre"]; ?>
 
-                      </div>
-                    </a>
-                  </li>
-                <?php } ?>
-                </ul>
-              </div>
-              <div class="topnav-dropdown-footer">
-                <a href="reservations.php">View all Notifications</a>
-              </div>
+
+                <li class="notification-message">
+                  <a href="#">
+                    <div class="media">
+
+                    </div>
+                  </a>
+                </li>
+          
+              </ul>
             </div>
-          </li>
+					</li>
 					<!-- /Notifications -->
 
 					<!-- User Menu -->
@@ -225,7 +209,7 @@
                  <a href="#"><i class="fas fa-book"></i> <span>Dictionnaire</span><span class="menu-arrow"></span></a>
                   <ul>
 
-                    <li><a href="Dictionnaire.php"> List</a></li>
+                    <li><a href="dictionnaire.php"> List</a></li>
                     <li><a href="add-dictionnaire.php"> Add</a></li>
                    </ul>
             </li>
@@ -282,7 +266,7 @@
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>image</label>
-                        <img width=50 src='<?php echo $_SESSION['fetch']["image"]; ?>' class="avatar-img rounded-circle" >
+                        <img width=50 src='<?php echo $_SESSION['fetch']["image_v"]; ?>' class="avatar-img rounded-circle">
                           <input type="file" name="photo" class="form-control" >
                         </div>
                       </div>
@@ -314,7 +298,7 @@
                       </div>
 
                         <div class="col-12">
-                          <h5 class="form-title"><span>Teacher Information</span></h5>
+                          <h5 class="form-title"><span>Student Information</span></h5>
                         </div>
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
@@ -336,7 +320,12 @@
                             <input type="text" name="prenom" class="form-control" value="<?php echo $liste["prenom"]; ?>" >
                           </div>
                         </div>
-
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label> CNE</label>
+                            <input type="text" name="cne" class="form-control" value="<?php echo $liste["cne"]; ?>">
+                          </div>
+                        </div>
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
                             <label> CIN</label>
@@ -362,6 +351,18 @@
                           </div>
                         </div>
 
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label>Filière</label>
+                            <select name="filiere" class="form-control">
+                              <option disabled="" value="<?php echo $liste["filiere"]; ?>" >Select </option>
+                              <option>GI</option>
+                              <option>TM</option>
+                              <option>GIM</option>
+                              <option>TIMQ</option>
+                              </select>
+                          </div>
+                        </div>
 
 
                         <div class="col-12 col-sm-6">
@@ -372,7 +373,17 @@
                         </div>
 
 
-
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label>Année</label>
+                            <select name="annee" class="form-control">
+                              <option disabled="" value="<?php echo $liste["Annee"]; ?>">Select</option>
+                              <option>1er Annee</option>
+                              <option>2ème Anee</option>
+                              <option>LP</option>
+                              </select>
+                          </div>
+                        </div>
 
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
@@ -383,13 +394,13 @@
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
                             <label>duration</label>
-                            <input type="text" name="duree" class="form-control" required>
+                            <input type="text" name="duree" class="form-control" required value="<?php echo $liste["nbr_emprunt"]; ?>">
                           </div>
                         </div>
 
 
                         <div class="col-12 form-group">
-                          <button type="submit" name="borrowTeacher" class="btn btn-primary">borrow to this teacher</button>
+                          <button type="submit" name="borrowStudent" class="btn btn-primary">borrow to this student</button>
                           <button type="submit" name="cancel" class="btn btn-primary">Cancel</button>
 
                         </div>

@@ -3,13 +3,13 @@ if($_SESSION['loggedin']== false)
 {
   header("location: logout.php");
 }
- if(isset($_GET['cin']))
+ if(isset($_GET['id_Cat']))
  {
-   $cne=$_GET['cin'];
+   $id=$_GET['id_Cat'];
    include('conn.php');
    $con=new conn();
-   $con->supprimerEtudiant($cne);
-   header("location:students.php");
+   $con->supprimerCategorie($id);
+   header("location:categorie.php");
 
  }
    else {

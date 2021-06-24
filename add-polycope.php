@@ -1,9 +1,22 @@
+<?php
+session_start();
+if($_SESSION['loggedin']== false)
+{
+  header("location: logout.php");
+}
+include 'Libelle.php';
+$lib = new Libelle();
+$category  = $lib->GetCats();
+
+
+
+ ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-        <title>Polycopes</title>
+        <title>Polycope</title>
 
 		<!-- Favicon -->
         <link rel="shortcut icon" href="assets/img/biblio.jpg">
@@ -31,10 +44,10 @@
 				<!-- Logo -->
                 <div class="header-left">
                     <a href="index.php" class="logo">
-						<img src="assets/img/logo.png" alt="Logo">
+						<img src="assets/img/eca-logo.png" alt="Logo">
 					</a>
 					<a href="index.php" class="logo logo-small">
-						<img src="assets/img/biblio.png" alt="Logo" width="30" height="30">
+										<img src="assets/img/Cadi-Ayyad-logo.png" alt="Logo" width="30" height="30">
 					</a>
                 </div>
 				<!-- /Logo -->
@@ -43,14 +56,7 @@
 					<i class="fas fa-align-left"></i>
 				</a>
 
-				<!-- Search Bar -->
-				<div class="top-nav-search">
-					<form>
-						<input type="text" class="form-control" placeholder="Search here">
-						<button class="btn" type="submit"><i class="fas fa-search"></i></button>
-					</form>
-				</div>
-				<!-- /Search Bar -->
+
 
 				<!-- Mobile Menu Toggle -->
 				<a class="mobile_btn" id="mobile_btn">
@@ -73,16 +79,25 @@
 							</div>
 							<div class="noti-content">
 								<ul class="notification-list">
+                  <?php
+                  include("Volume.php");
+                  $vol = new Volume();
+                  $reservation = $vol->Reservation();
+                   foreach ($reservation as $reser){ ?>
+
 									<li class="notification-message">
 										<a href="#">
+											<div class="media">
+                       <?php echo $reser["nom_Adh"]." Reserver Volume  ".$reser["titre"]; ?>
 
+											</div>
 										</a>
 									</li>
-
+                <?php } ?>
 								</ul>
 							</div>
 							<div class="topnav-dropdown-footer">
-								<a href="#">View all Notifications</a>
+								<a href="reservations.php">View all Notifications</a>
 							</div>
 						</div>
 					</li>
@@ -91,15 +106,15 @@
 					<!-- User Menu -->
           <li class="nav-item dropdown has-arrow">
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-							<span class="user-img"><img class="rounded-circle" src="assets/img/profiles/avatar-02.jpg" width="31" alt="Ryan Taylor"></span>
+							<span class="user-img"><img class="rounded-circle" src="<?php echo $_SESSION['admin']['image']; ?>" width="31" alt="Ryan Taylor"></span>
 						</a>
 						<div class="dropdown-menu">
 							<div class="user-header">
 								<div class="avatar avatar-sm">
-									<img src="assets/img/profiles/avatar-02.jpg" alt="User Image" class="avatar-img rounded-circle">
+									<img src="<?php echo $_SESSION['admin']['image']; ?>" alt="User Image" class="avatar-img rounded-circle">
 								</div>
 								<div class="user-text">
-									<h6>Rawbati Ilham</h6>
+									<h6><?php echo $_SESSION['admin']['nom_adm']." ".$_SESSION['admin']['prenom']; ?></h6>
 									<p class="text-muted mb-0">Administrateur</p>
 								</div>
 							</div>
@@ -118,7 +133,7 @@
 			<!-- Sidebar -->
       <div class="sidebar" id="sidebar">
           <div class="sidebar-inner slimscroll">
-    <div id="sidebar-menu" class="sidebar-menu">
+      <div id="sidebar-menu" class="sidebar-menu">
       <ul>
         <li class="menu-title">
           <span>Main Menu</span>
@@ -132,7 +147,7 @@
 
            <li><a href="students.php">Student List</a></li>
             <li><a href="add-student.php">Student Add</a></li>
-            <li><a href="edit-student.php">Student Edit</a></li>
+
           </ul>
         </li>
         <li class="submenu">
@@ -140,7 +155,7 @@
           <ul>
             <li><a href="teachers.php">Teacher List</a></li>
             <li><a href="add-teacher.php">Teacher Add</a></li>
-            <li><a href="edit-teacher.php">Teacher Edit</a></li>
+
           </ul>
         </li>
         <li class="submenu">
@@ -149,6 +164,7 @@
 
             <li><a href="emprunte-etudiants.php">Liste des étudiants</a></li>
             <li><a href="emprunte-enseignants.php">Liste des enseignants</a></li>
+            <li><a href="add-emprunteur.php">Add emprunteur</a></li>
           </ul>
         </li>
         <li class="submenu">
@@ -177,7 +193,7 @@
                  <a href="#"><i class="fas fa-book"></i> <span>Polycopes</span><span class="menu-arrow"></span></a>
                   <ul>
 
-                 <li><a href="Polycopes.php"> List</a></li>
+                 <li><a href="polycopes.php"> List</a></li>
                  <li><a href="add-polycope.php"> Add</a></li>
 
                    </ul>
@@ -196,18 +212,20 @@
           </ul>
         </li>
 
+        <li class="submenu">
+          <a href="#"><i class="fas fa-inbox"></i> <span>Reservations</span> <span class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="reservations.php">les Reservations</a></li>
 
 
-
-
-
-
+          </ul>
+        </li>
 
 
 
 
       </ul>
-    </div>
+      </div>
           </div>
       </div>
 			<!-- /Sidebar -->
@@ -220,9 +238,9 @@
 					<div class="page-header">
 						<div class="row align-items-center">
 							<div class="col">
-								<h3 class="page-title">Add Polycopes</h3>
+								<h3 class="page-title">Add Polycope</h3>
 								<ul class="breadcrumb">
-									<li class="breadcrumb-item"><a href="polycopes.php">Polycopes</a></li>
+									<li class="breadcrumb-item"><a href="polycopes.php">Polycope</a></li>
 									<li class="breadcrumb-item active">Add polycope</li>
 								</ul>
 							</div>
@@ -240,17 +258,23 @@
 						<div class="col-12">
 							<h5 class="form-title"><span> polycopes Information</span></h5>
 						</div>
-						<div class="col-12 col-sm-6">
-							<div class="form-group">
-								<label>ID</label>
-								<input type="text" name="id_pol" class="form-control">
-							</div>
-						</div>
+            <div class="col-12 col-sm-6">
+          <div class="form-group">
+            <label>Categorie</label>
+            <select class="form-control" name="cat">
+                <option>----- Select -----</option>
+                <?php
+                foreach ($category as $output ) { $_SESSION[$output["liblecat"]] = $output["id_Cat"]; ?>
+                  <option><?php echo $output["liblecat"];?> </option>
+                  <?php } ?>
+       </select>
+          </div>
+        </div>
 
 						<div class="col-12 col-sm-6">
 							<div class="form-group">
 								<label>Titre</label>
-								<input type="text" name="tit_pol" class="form-control">
+								<input type="text" name="titre" class="form-control">
 							</div>
 						</div>
 
@@ -264,28 +288,32 @@
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>Auteur</label>
-                          <input type="text" name="aut_pol" class="form-control">
+                          <input type="text" name="auteur" class="form-control">
                         </div>
                       </div>
 
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>Editeur</label>
-                          <input type="text" name="ed_pol" class="form-control">
+                          <input type="text" name="editeur" class="form-control">
                         </div>
                       </div>
 
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>Emplacement</label>
-                          <input type="text" name="emp_pol" class="form-control">
+                          <input type="text" name="emplace" class="form-control">
                         </div>
                       </div>
 
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
-                          <label>Status</label>
-                          <input type="text" name="stat_pol" class="form-control">
+                          <label>status</label>
+                          <select name="status" class="form-control">
+                            <option>-----Select---- </option>
+                            <option>Available</option>
+                            <option>Unavailable</option>
+                            </select>
                         </div>
                       </div>
 

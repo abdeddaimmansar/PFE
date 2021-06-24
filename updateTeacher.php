@@ -5,18 +5,16 @@
    header("location: logout.php");
  }
  if(isset($_POST['update']))  {
-   $nom=$_POST["nom"];
 
+   $nom=$_POST["nom"];
    $prenom=$_POST["prenom"];
-   $cne=$_POST["cne"];
-   $cin = $_POST["cin"];
+
+   $cin =$_POST["cin"];
    $depar=$_POST["depar"];
    $tele=$_POST["tele"];
    $email=$_POST["email"];
-   $annee=$_POST["annee"];
-   $password=$_POST["password"];
-   $username=$_POST["username"];
-   $filiere=$_POST["filiere"];
+
+
    $nbr_emprunt = $_POST["nbr_emprunt"];
     $filename = $_FILES["photo"]["name"];
     if(!empty($filename)) {
@@ -27,26 +25,27 @@
       $folder = "assets/img/profiles/".$filename;
      move_uploaded_file($tempname,$folder);
 
-
-
-
-
-  }
+                         }
    else {
+      $folder = $_SESSION['userimage'];
 
-
-
-    $folder = $_SESSION['userimage'];
-
-  }
+        }
+        /*echo $id_Adh."<br>";
+        echo $nom."<br>";
+        echo $prenom."<br>";
+        echo $folder."<br>";
+        echo $depar."<br>";
+        echo $tele."<br>";
+        echo $nbr_emprunt."<br>";
+        echo $email."<br>";*/
 
 }
  include("Adherent.php");
-
-  $student = new Etudiant();
-  $student->newEntry($cin,$nom,$prenom,$folder,$depar,$tele,$email,$nbr_emprunt,$cne,$filiere,$annee);
+  $student = new Enseignant();
+  $student->newEntry($cin,$nom,$prenom,$folder,$depar,$tele,$email,$nbr_emprunt);
+  echo "string";
   $student->toUpdate();
-  header('Location: students.php');
+header('Location: teachers.php');
 
 
 

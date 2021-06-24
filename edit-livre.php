@@ -1,20 +1,35 @@
 <?php
-// We need to use sessions, so you should always start sessions using the below code.
-session_start();
-if($_SESSION['loggedin']== false)
-{
-  header("location: logout.php");
-}?>
+ session_start();
+ if($_SESSION['loggedin']== false)
+ {
+   header("location: logout.php");
+ }
 
+      if(ISSET($_GET['id_vol']))
+      {
+
+           $cin = $_GET['id_vol'];
+           include("Volume.php");
+           $student = new Livre();
+          $fetch = $student->getlivre($cin);
+          include("Libelle.php");
+          $lib = new Libelle();
+          $cats =$lib->GetCats();
+
+      }
+
+
+
+ ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-        <title>Teachers</title>
+        <title>Students</title>
 
 		<!-- Favicon -->
-        <link rel="shortcut icon" href="assets/img/biblio.jpg">
+        <link rel="shortcut icon" href="assets/img/favicon.png">
 
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,400&display=swap">
 
@@ -24,9 +39,6 @@ if($_SESSION['loggedin']== false)
 		<!-- Fontawesome CSS -->
 		<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
 		<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
-
-		<!-- Datatables CSS -->
-		<link rel="stylesheet" href="assets/plugins/datatables/datatables.min.css">
 
 		<!-- Main CSS -->
         <link rel="stylesheet" href="assets/css/style.css">
@@ -45,7 +57,7 @@ if($_SESSION['loggedin']== false)
 						<img src="assets/img/eca-logo.png" alt="Logo">
 					</a>
 					<a href="index.php" class="logo logo-small">
-						<img src="assets/img/Cadi-Ayyad-logo.png" alt="Logo" width="30" height="30">
+				<img src="assets/img/Cadi-Ayyad-logo.png" alt="Logo" width="30" height="30">
 					</a>
                 </div>
 				<!-- /Logo -->
@@ -54,7 +66,14 @@ if($_SESSION['loggedin']== false)
 					<i class="fas fa-align-left"></i>
 				</a>
 
-
+				<!-- Search Bar -->
+				<div class="top-nav-search">
+					<form>
+						<input type="text" class="form-control" placeholder="Search here">
+						<button class="btn" type="submit"><i class="fas fa-search"></i></button>
+					</form>
+				</div>
+				<!-- /Search Bar -->
 
 				<!-- Mobile Menu Toggle -->
 				<a class="mobile_btn" id="mobile_btn">
@@ -78,7 +97,9 @@ if($_SESSION['loggedin']== false)
               <div class="noti-content">
                 <ul class="notification-list">
                   <?php
-                 
+                  include("Volume.php");
+                  $vol = new Volume();
+                  $reservation = $vol->Reservation();
                    foreach ($reservation as $reser){ ?>
 
                   <li class="notification-message">
@@ -102,15 +123,15 @@ if($_SESSION['loggedin']== false)
 					<!-- User Menu -->
           <li class="nav-item dropdown has-arrow">
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-							<span class="user-img"><img class="rounded-circle" src="<?php echo $_SESSION['admin']['image']; ?>" width="31" alt="Ryan Taylor"></span>
+							<span class="user-img"><img class="rounded-circle" src="assets/img/profiles/avatar-02.jpg" width="31" alt="Ryan Taylor"></span>
 						</a>
 						<div class="dropdown-menu">
 							<div class="user-header">
 								<div class="avatar avatar-sm">
-									<img src="<?php echo $_SESSION['admin']['image']; ?>" alt="User Image" class="avatar-img rounded-circle">
+									<img src="assets/img/profiles/avatar-02.jpg" alt="User Image" class="avatar-img rounded-circle">
 								</div>
 								<div class="user-text">
-									<h6><?php echo $_SESSION['admin']['nom_adm']." ".$_SESSION['admin']['prenom']; ?></h6>
+									<h6>Rawbati Ilham</h6>
 									<p class="text-muted mb-0">Administrateur</p>
 								</div>
 							</div>
@@ -234,89 +255,100 @@ if($_SESSION['loggedin']== false)
 					<div class="page-header">
 						<div class="row align-items-center">
 							<div class="col">
-								<h3 class="page-title">Teachers</h3>
+								<h3 class="page-title">Edit Students</h3>
 								<ul class="breadcrumb">
-									<li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-
-									<li class="breadcrumb-item active">Teachers</li>
+									<li class="breadcrumb-item"><a href="students.php">Students</a></li>
+									<li class="breadcrumb-item active">Edit Students</li>
 								</ul>
 							</div>
-              <div class="col-auto text-right float-right ml-auto">
-
-                <a href="add-teacher.php" class="btn btn-primary"><i class="fas fa-plus"></i></a>
-              </div>
-
 						</div>
 					</div>
 					<!-- /Page Header -->
-
-					<div class="row">
+          <div class="row">
 						<div class="col-sm-12">
 
-							<div class="card card-table">
+							<div class="card">
 								<div class="card-body">
-									<div class="table-responsive">
-<?php
-  	include("conn.php");
-  	$conn=new conn();
-    $liste=$conn->listeAdherents();
-?>
-										<table class="table table-hover table-center mb-0 datatable">
-											<thead>
-												<tr>
-													<th>ID</th>
-                          <th>Nom</th>
-                          <th>Prénom</th>
-                          <th>Image</th>
-													<th>Département</th>
+									<form action="savenewLivre.php" method="POST" enctype="multipart/form-data">
+										<div class="row">
+											<div class="col-12">
+												<h5 class="form-title"><span>Student Information</span></h5>
+											</div>
 
-													<th>Téléphone</th>
-													<th>Email</th>
-                          <th>nbr_emprunt</th>
+											<div class="col-12 col-sm-6">
+												<div class="form-group">
+													<label>Titre</label>
+													<input type="text" name="titre" class="form-control" value="<?php $_SESSION['id_vol'] = $fetch["id_vol"]; echo $fetch["titre"]; ?>">
+												</div>
+											</div>
+											<div class="col-12 col-sm-6">
+												<div class="form-group">
+													<label>Auteur</label>
 
-													<th class="text-right">Action</th>
-												</tr>
-											</thead>
-											<tbody>
-                        <?php
-                        		foreach ($liste as $ls) {
-                              echo "<tr>
-                              <td>".$ls[0]."</td>
-                              <td>".$ls[1]. " </td>
-                              <td>".$ls[2]."</td>
-                              <td><img width=80 src='".$ls[3]."'></td>
-                              <td>".$ls[4]."</td>
-                              <td>".$ls[5]."</td>
-                              <td>".$ls[6]."</td>
-                              <td>".$ls[7]."</td>
+													<input type="text" name="auteur" class="form-control" value="<?php echo $fetch["auteur"]; ?>" >
+												</div>
+											</div>
+											<div class="col-12 col-sm-6">
+												<div class="form-group">
+													<label>Editeur</label>
+													<input type="text" name="editeur" class="form-control" value="<?php echo $fetch["editeur"]; ?>">
+												</div>
+											</div>
+                      <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                          <label>Emplacement</label>
+                          <input type="text" name="emplace" class="form-control" value="<?php echo $fetch["emplacement"]; ?>">
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-6">
+												<div class="form-group">
+													<label>status</label>
+													<select name="status" class="form-control">
+                            <option disabled="" >select</option>
+                            <option selected ><?php echo $fetch["status"]; ?></option>
+                            <option>Available</option>
+                            <option>unavailable</option>
+													</select>
+												</div>
+											</div>
 
-                              " ;?>
-															<td class="text-right">
-																<div class="actions">
-																		<a href="borrow-teacher.php?cin=<?=$ls[0]?>" class="btn btn-sm bg-success-light mr-2">
-																			 <i class="fas fa-plus"></i>
-																		</a>
 
-																</div>
-															</td>
+                      <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                          <label>Categorie</label>
+                          <select name="cat" class="form-control">
+                            <option>Select </option>
+                            <option selected><?php echo $fetch["liblecat"]; ?></option>
+                             <?php foreach ($cats as $category) { $_SESSION[$category["liblecat"]] = $category["id_Cat"]; ?>
+                                 <option><?php echo $category["liblecat"]; ?></option>
+                            <?php } ?>
+                            </select>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                          <label>image</label>
+                        <img width="100" src='<?php echo $fetch["image_v"];$_SESSION['image_v'] = $fetch["image_v"]; ?>' class="avatar-img rounded-circle" >
+                          <input type="file" name="image" class="form-control" >
+                        </div>
+                      </div>
 
-                    <?php } echo "  </tr>"; ?>
 
-											</tbody>
-										</table>
-									</div>
+											</div>
+
+											<div class="col-12">
+												<button type="submit" name="updatelivre" class="btn btn-primary">Modifier</button>
+											</div>
+
+										</div>
+									</form>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-
-				<!-- Footer -->
-				<footer>
-           <p>École Supérieure de Technologie - SAFI.</p>
-				</footer>
-				<!-- /Footer -->
 			</div>
+
 			<!-- /Page Wrapper -->
 
         </div>
@@ -331,9 +363,6 @@ if($_SESSION['loggedin']== false)
 
 		<!-- Slimscroll JS -->
 		<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-		<!-- Datatables JS -->
-		<script src="assets/plugins/datatables/datatables.min.js"></script>
 
 		<!-- Custom JS -->
 		<script src="assets/js/script.js"></script>

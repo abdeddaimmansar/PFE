@@ -1,9 +1,14 @@
 <?php
+session_start();
+if($_SESSION['loggedin']== false)
+{
+  header("location: logout.php");
+}
 	if(!isset($_POST["save"])){
 		header("location:add-teacher.php");
 		die();
 	}
-    $id_Adh=$_POST["txtid"];
+   $cin = $_POST['cin'];
 	$nom_Adh=$_POST["txtNom"];
 	$prenom=$_POST["txtPrenom"];
     //$image= $_FILES["photo"]["name"];
@@ -20,14 +25,16 @@
     $email=$_POST["email"];
 	$nbr_emprunt=$_POST["nbr"];
 
-	if( empty($nom_Adh)|| empty($prenom)|| empty($filename) || empty($depar) || empty($tele)
+	if(empty($cin) || empty($nom_Adh)|| empty($prenom)|| empty($filename) || empty($depar) || empty($tele)
 	    || empty($email) || empty($nbr_emprunt)){
 		header('location:add-teacher.php?empty');
 	}else{
 		include("Adherent.php");
-		$en=new Enseignant($id_Adh,$nom_Adh,$prenom,$folder,$depar,$tele,$email,$nbr_emprunt);
+		$en=new Enseignant();
+		$en->newEntry($cin,$nom_Adh,$prenom,$folder,$depar,$tele,$email,$nbr_emprunt);
+
 		$en->addtodata();
-		header("location:teachers.php");
+ 	header("location:teachers.php");
 
 	}
 

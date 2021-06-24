@@ -1,17 +1,30 @@
 <?php
-session_start();
-if($_SESSION['loggedin']== false)
-{
-  header("location: logout.php");
-}
-include("Volume.php");
-$volm=new Livre();
-$livres=$volm->listeLivres();
-$volm = new Polycope();
-$fetch=$volm->listePolycopes();
-$volm = new Dictionnaire();
-$dic = $volm->listeDictionnaires();
-?>
+ session_start();
+ if($_SESSION['loggedin']== false)
+ {
+   header("location: logout.php");
+ }
+
+      if(ISSET($_GET['cin']))
+      {
+
+           $id_vol = $_GET['cin'];
+           include_once("Adherent.php");
+           $student = new Etudiant();
+          $fetch = $student->GetoneEmprunte($id_vol);
+
+      }
+      else if (isset($_GET["ETcin"])) {
+           $cin = $_GET["ETcin"];
+           include_once 'Adherent.php';
+           $student = new Enseignant();
+           $fetch = $student->GetoneEmprunte($cin);
+
+      }
+
+
+
+ ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -20,7 +33,7 @@ $dic = $volm->listeDictionnaires();
         <title>Students</title>
 
 		<!-- Favicon -->
-        <link rel="shortcut icon" href="assets/img/biblio.jpg">
+        <link rel="shortcut icon" href="assets/img/favicon.png">
 
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,400&display=swap">
 
@@ -31,14 +44,8 @@ $dic = $volm->listeDictionnaires();
 		<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
 		<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
 
-		<!-- Datatables CSS -->
-		<link rel="stylesheet" href="assets/plugins/datatables/datatables.min.css">
-
 		<!-- Main CSS -->
         <link rel="stylesheet" href="assets/css/style.css">
-        <link rel="stylesheet" href="assets/css/cards.css">
-        <link rel="stylesheet" href="/css/cards-res.css">
-
     </head>
     <body>
 
@@ -54,7 +61,7 @@ $dic = $volm->listeDictionnaires();
 						<img src="assets/img/eca-logo.png" alt="Logo">
 					</a>
 					<a href="index.php" class="logo logo-small">
-										<img src="assets/img/Cadi-Ayyad-logo.png" alt="Logo" width="30" height="30">
+				<img src="assets/img/Cadi-Ayyad-logo.png" alt="Logo" width="30" height="30">
 					</a>
                 </div>
 				<!-- /Logo -->
@@ -63,7 +70,14 @@ $dic = $volm->listeDictionnaires();
 					<i class="fas fa-align-left"></i>
 				</a>
 
-
+				<!-- Search Bar -->
+				<div class="top-nav-search">
+					<form>
+						<input type="text" class="form-control" placeholder="Search here">
+						<button class="btn" type="submit"><i class="fas fa-search"></i></button>
+					</form>
+				</div>
+				<!-- /Search Bar -->
 
 				<!-- Mobile Menu Toggle -->
 				<a class="mobile_btn" id="mobile_btn">
@@ -75,7 +89,7 @@ $dic = $volm->listeDictionnaires();
 				<ul class="nav user-menu">
 
 					<!-- Notifications -->
-					<li class="nav-item dropdown noti-dropdown">
+          <li class="nav-item dropdown noti-dropdown">
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 							<i class="far fa-bell"></i> <span class="badge badge-pill"></span>
 						</a>
@@ -86,16 +100,25 @@ $dic = $volm->listeDictionnaires();
 							</div>
 							<div class="noti-content">
 								<ul class="notification-list">
+                  <?php
+                  include("Volume.php");
+                  $vol = new Volume();
+                  $reservation = $vol->Reservation();
+                   foreach ($reservation as $reser){ ?>
+
 									<li class="notification-message">
 										<a href="#">
+											<div class="media">
+                       <?php echo $reser["nom_Adh"]." Reserver Volume  ".$reser["titre"]; ?>
 
+											</div>
 										</a>
 									</li>
-
+                <?php } ?>
 								</ul>
 							</div>
 							<div class="topnav-dropdown-footer">
-								<a href="#">View all Notifications</a>
+								<a href="reservations.php">View all Notifications</a>
 							</div>
 						</div>
 					</li>
@@ -104,20 +127,20 @@ $dic = $volm->listeDictionnaires();
 					<!-- User Menu -->
           <li class="nav-item dropdown has-arrow">
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-							<span class="user-img"><img class="rounded-circle" src="<?php echo $_SESSION['admin']['image']; ?>" width="31" alt="Ryan Taylor"></span>
+							<span class="user-img"><img class="rounded-circle" src="assets/img/profiles/avatar-02.jpg" width="31" alt="Ryan Taylor"></span>
 						</a>
 						<div class="dropdown-menu">
 							<div class="user-header">
 								<div class="avatar avatar-sm">
-									<img src="<?php echo $_SESSION['admin']['image']; ?>" alt="User Image" class="avatar-img rounded-circle">
+									<img src="assets/img/profiles/avatar-02.jpg" alt="User Image" class="avatar-img rounded-circle">
 								</div>
 								<div class="user-text">
-									<h6><?php echo $_SESSION['admin']['nom_adm']." ".$_SESSION['admin']['prenom']; ?></h6>
+									<h6>Rawbati Ilham</h6>
 									<p class="text-muted mb-0">Administrateur</p>
 								</div>
 							</div>
 							<a class="dropdown-item" href="profile.php">My Profile</a>
-							<a class="dropdown-item" href="login.php">Logout</a>
+							<a class="dropdown-item" href="logout.php">Logout</a>
 						</div>
 					</li>
 					<!-- /User Menu -->
@@ -236,118 +259,81 @@ $dic = $volm->listeDictionnaires();
 					<div class="page-header">
 						<div class="row align-items-center">
 							<div class="col">
-								<h3 class="page-title">Les Volumes</h3>
+								<h3 class="page-title">Edit Emprunteur</h3>
 								<ul class="breadcrumb">
-									<li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-									<li class="breadcrumb-item active">Les Volume</li>
+									<li class="breadcrumb-item"><a href="emprunte-etudiants.php">Liste des emprunteurs</a></li>
+									<li class="breadcrumb-item active">Edit Emprunteur</li>
 								</ul>
 							</div>
-
 						</div>
 					</div>
 					<!-- /Page Header -->
+          <div class="row">
+						<div class="col-sm-12">
+
+							<div class="card">
+								<div class="card-body">
+									<form action="borrow.php" method="POST" enctype="multipart/form-data">
+										<div class="row">
+											<div class="col-12">
+												<h5 class="form-title"><span>Emprunteurs</span></h5>
+											</div>
+                      <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                          <label>Date d'emprunt</label>
+
+                          <input type="text" name="date_emp" class="form-control" value="<?php echo $fetch["date_emp"] ?>" >
+                        </div>
+                      </div>
+											<div class="col-12 col-sm-6">
+												<div class="form-group">
+													<label>Date de retour</label>
+													<input type="text" name="dateRet" class="form-control" value="<?php echo $fetch["dateRet"]; ?>">
+												</div>
+											</div>
+                      <div class="col-12 col-sm-6">
+												<div class="form-group">
+													<label>Duree</label>
+													<input type="text" name="duree" class="form-control" value="5">
+												</div>
+											</div>
+                      <div class="col-12 col-sm-6">
+												<div class="form-group">
+													<label>cin</label>
+													<input type="text" name="cin" class="form-control" value="<?php echo $fetch["cin"]; ?>">
+												</div>
+											</div>
+                      <div class="col-12 col-sm-6">
+												<div class="form-group">
+													<label>id_vol</label>
+													<input type="text" name="id_vol" class="form-control" value="<?php echo $fetch["id_vol"]; ?>">
+												</div>
+											</div>
 
 
-<h1>Les Livres</h1>
-          <div class="tab-content profile-tab-cont">
-
-            <div class="tab-pane fade show active">
 
 
+											</div>
 
-              <div class="row">
-                                    <div class="card" >
-                                        <div class="row  d-flex justify-content-around ">
-                                            <?php
-                                                    foreach ($livres as $output ) {
-                                                        ?>
-                                                <ul  >
-                                                    <li class="booking-card" style="background-image: url('<?php echo $output["image_v"];?>');">
-                                                        <div class="book-container">
-                                                            <div class="content">
-                                                            <a href="newemprunter.php?idliv=<?php echo $output["id_vol"];?>">
-                                                               <?php if($output["status"]=="Available" || $output["status"] == "available"){
-                                                                    echo '  <button class="btn">Réserver</button></a>';
-                                                                  }else {
-                                                                      echo '  <button class="btn">Unavailable</button></a>';
-                                                                  }
-                                                                 ?>
+											<div class="col-12">
+												<button type="submit" name="upempruntEtu" class="btn btn-primary">Modifier</button>
+											</div>
 
-                                                            </div>
-                                                        </div>
-                                                        <div class="informations-container">
-                                                            <h2 class="title"><?php echo $output["titre"];?> </h2>
-
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            <?php }
-
-                                                        ?>
-                                        </div>
-                                    </div>
-
-
-                                 </div>
-
-
-            </div>
-            <h1>Polycope</h1>
-            <div class="tab-pane fade show active">
-              <!-- Personal Details -->
-
-
-              <div class="row">
-                                    <div class="card" >
-                                        <div class="row  d-flex justify-content-around ">
-                                            <?php
-                                                    foreach ($fetch as $output3 ) {
-                                                        ?>
-                                                <ul>
-                                                    <li class="booking-card" style="background-image: url('<?php echo $output3["image_v"];?>');">
-                                                        <div class="book-container">
-                                                            <div class="content">
-                                                            <a href="newemprunter.php?idpoly=<?php echo $output3["id_vol"];?>">
-                                                               <?php if($output3["status"]=="Available" || $output3["status"]=="available"){
-                                                                    echo '  <button class="btn">Réserver</button></a>';
-                                                                  }else {
-                                                                      echo '  <button class="btn">Unavailable</button></a>';
-                                                                  }
-                                                                 ?>
-                                                            </div>
-                                                        </div>
-                                                        <div class="informations-container">
-                                                            <h2 class="title"><?php echo $output3["titre"];?> </h2>
-
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            <?php }
-
-                                                        ?>
-                                        </div>
-                                    </div>
-
-
-                                 </div>
-
-
-            </div>
-
-          </div>
-
-				<!-- Footer -->
-				<footer>
-           <p>École Supérieure de Technologie - SAFI.</p>
-				</footer>
-				<!-- /Footer -->
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
+
 			<!-- /Page Wrapper -->
 
         </div>
+		<!-- /Main Wrapper -->
 
-
-		<!--jQuery -->
+		<!-- jQuery -->
         <script src="assets/js/jquery-3.5.1.min.js"></script>
 
 		<!-- Bootstrap Core JS -->
@@ -355,12 +341,9 @@ $dic = $volm->listeDictionnaires();
         <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 
 		<!-- Slimscroll JS -->
-		    <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-		<!-- Datatables JS -->
-		     <script src="assets/plugins/datatables/datatables.min.js"></script>
+		<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
 		<!-- Custom JS -->
-		    <script src="assets/js/script.js"></script>
+		<script src="assets/js/script.js"></script>
     </body>
 </html>

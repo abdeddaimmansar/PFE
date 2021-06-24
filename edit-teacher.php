@@ -1,3 +1,22 @@
+<?php
+ session_start();
+ if($_SESSION['loggedin']== false)
+ {
+   header("location: logout.php");
+ }
+      if(ISSET($_GET['cin']))
+      {
+
+           $id = $_GET['cin'];
+           include("Adherent.php");
+           $student = new Enseignant();
+          $fetch = $student->waytostudent($id);
+
+      }
+
+
+
+ ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -31,11 +50,10 @@
 				<!-- Logo -->
                 <div class="header-left">
                     <a href="index.php" class="logo">
-						<img src="assets/img/logo.png" alt="Logo">
+						<img src="assets/img/eca-logo.png" alt="Logo">
 					</a>
 					<a href="index.php" class="logo logo-small">
-						<img src="assets/img/biblio.png" alt="Logo" width="30" height="30">
-					</a>
+<img src="assets/img/Cadi-Ayyad-logo.png" alt="Logo" width="30" height="30">					</a>
                 </div>
 				<!-- /Logo -->
 
@@ -73,16 +91,25 @@
 							</div>
 							<div class="noti-content">
 								<ul class="notification-list">
+                  <?php
+                  include("Volume.php");
+                  $vol = new Volume();
+                  $reservation = $vol->Reservation();
+                   foreach ($reservation as $reser){ ?>
+
 									<li class="notification-message">
 										<a href="#">
+											<div class="media">
+                       <?php echo $reser["nom_Adh"]." Reserver Volume  ".$reser["titre"]; ?>
 
+											</div>
 										</a>
 									</li>
-
+                <?php } ?>
 								</ul>
 							</div>
 							<div class="topnav-dropdown-footer">
-								<a href="#">View all Notifications</a>
+								<a href="reservations.php">View all Notifications</a>
 							</div>
 						</div>
 					</li>
@@ -132,7 +159,7 @@
 
            <li><a href="students.php">Student List</a></li>
             <li><a href="add-student.php">Student Add</a></li>
-            <li><a href="edit-student.php">Student Edit</a></li>
+
           </ul>
         </li>
         <li class="submenu">
@@ -140,7 +167,7 @@
           <ul>
             <li><a href="teachers.php">Teacher List</a></li>
             <li><a href="add-teacher.php">Teacher Add</a></li>
-            <li><a href="edit-teacher.php">Teacher Edit</a></li>
+
           </ul>
         </li>
         <li class="submenu">
@@ -149,6 +176,7 @@
 
             <li><a href="emprunte-etudiants.php">Liste des étudiants</a></li>
             <li><a href="emprunte-enseignants.php">Liste des enseignants</a></li>
+            <li><a href="add-emprunteur.php">Add emprunteur</a></li>
           </ul>
         </li>
         <li class="submenu">
@@ -177,7 +205,7 @@
                  <a href="#"><i class="fas fa-book"></i> <span>Polycopes</span><span class="menu-arrow"></span></a>
                   <ul>
 
-                 <li><a href="Polycopes.php"> List</a></li>
+                 <li><a href="polycopes.php"> List</a></li>
                  <li><a href="add-polycope.php"> Add</a></li>
 
                    </ul>
@@ -196,12 +224,14 @@
           </ul>
         </li>
 
+        <li class="submenu">
+          <a href="#"><i class="fas fa-inbox"></i> <span>Reservations</span> <span class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="reservations.php">les Reservations</a></li>
 
 
-
-
-
-
+          </ul>
+        </li>
 
 
 
@@ -235,28 +265,35 @@
 
               <div class="card">
                 <div class="card-body">
-                  <form>
+                  <form action="updateTeacher.php" method="post" enctype="multipart/form-data">
                     <div class="row">
                       <div class="col-12">
                         <h5 class="form-title"><span>Teacher Information</span></h5>
                       </div>
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
+                          <label>image</label>
+                        <img width=50 src='<?php echo $fetch["image"];$_SESSION['userimage'] = $fetch["image"]; ?>' class="avatar-img rounded-circle" >
+                          <input type="file" name="photo" class="form-control" >
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-6">
+                        <div class="form-group">
                           <label>Nom</label>
-                          <input type="text" class="form-control">
+                          <input type="text" name="nom" class="form-control" value="<?php $_SESSION['userid']=$fetch["cin"]; echo $fetch["nom_Adh"]; ?>" >
                         </div>
                       </div>
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>Prénom</label>
-                          <input type="text" class="form-control">
+                          <input type="text" name="prenom" class="form-control" value="<?php echo $fetch["prenom"]; ?>" >
                         </div>
                       </div>
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>Department</label>
-                          <select class="form-control">
-                            <option>select</option>
+                          <select name="depar" class="form-control">
+                            <option><?php echo $fetch["depar"]; ?> </option>
                             <option>GI</option>
                             <option>TM</option>
                             <option>GIM</option>
@@ -267,54 +304,32 @@
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>Téléphone</label>
-                          <input type="text" class="form-control">
+                          <input type="text" name="tele" class="form-control" value="<?php echo $fetch["tele"]; ?>" >
                         </div>
                       </div>
 
 
                       <div class="col-12 col-sm-6">
-                        <div class="form-group">
+                        <div   class="form-group">
                           <label>Email</label>
-                          <input type="text" class="form-control">
+                          <input type="text" name="email" class="form-control" value="<?php echo $fetch["email"]; ?>" >
                         </div>
                       </div>
 
                       <div class="col-12 col-sm-6">
-                        <div class="form-group">
+                        <div name="nbr_emprunt" class="form-group">
                           <label>nbr_emprunt</label>
-                          <input type="text" class="form-control">
+                          <input type="text" name="nbr_emprunt" class="form-control" value="<?php echo $fetch["nbr_emprunt"]; ?>" >
                         </div>
                       </div>
+
+
 
 
 
 
                       <div class="col-12">
-                        <h5 class="form-title"><span>Login Details</span></h5>
-                      </div>
-                      <div class="col-12 col-sm-6">
-                        <div class="form-group">
-                          <label>Username</label>
-                          <input type="text" class="form-control">
-                        </div>
-                      </div>
-                      <div class="col-12 col-sm-6">
-                        <div class="form-group">
-                          <label>Password</label>
-                          <input type="text" class="form-control">
-                        </div>
-                      </div>
-                      <div class="col-12 col-sm-6">
-                        <div class="form-group">
-                          <label>Repeat Password</label>
-                          <input type="text" class="form-control">
-                        </div>
-                      </div>
-
-                      </div>
-
-                      <div class="col-12">
-                        <button type="submit" class="btn btn-primary">Modifier</button>
+                        <button type="submit" name="update" class="btn btn-primary">Modifier</button>
                       </div>
                     </div>
                   </form>

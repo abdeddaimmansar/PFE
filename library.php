@@ -135,7 +135,7 @@
 
            <li><a href="students.php">Student List</a></li>
             <li><a href="add-student.php">Student Add</a></li>
-            <li><a href="edit-student.php">Student Edit</a></li>
+
           </ul>
         </li>
         <li class="submenu">
@@ -143,7 +143,7 @@
           <ul>
             <li><a href="teachers.php">Teacher List</a></li>
             <li><a href="add-teacher.php">Teacher Add</a></li>
-            <li><a href="edit-teacher.php">Teacher Edit</a></li>
+
           </ul>
         </li>
         <li class="submenu">
@@ -152,6 +152,7 @@
 
             <li><a href="emprunte-etudiants.php">Liste des étudiants</a></li>
             <li><a href="emprunte-enseignants.php">Liste des enseignants</a></li>
+            <li><a href="add-emprunteur.php">Add emprunteur</a></li>
           </ul>
         </li>
         <li class="submenu">
@@ -180,7 +181,7 @@
                  <a href="#"><i class="fas fa-book"></i> <span>Polycopes</span><span class="menu-arrow"></span></a>
                   <ul>
 
-                 <li><a href="Polycopes.php"> List</a></li>
+                 <li><a href="polycopes.php"> List</a></li>
                  <li><a href="add-polycope.php"> Add</a></li>
 
                    </ul>
@@ -199,12 +200,14 @@
           </ul>
         </li>
 
+        <li class="submenu">
+          <a href="#"><i class="fas fa-inbox"></i> <span>Reservations</span> <span class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="reservations.php">les Reservations</a></li>
 
 
-
-
-
-
+          </ul>
+        </li>
 
 
 

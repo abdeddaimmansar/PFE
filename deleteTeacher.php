@@ -9,7 +9,7 @@ if($_SESSION['loggedin']== false)
    include('conn.php');
    $con=new conn();
    $con->supprimerEtudiant($cne);
-   header("location:students.php");
+   header("location:teachers.php");
 
  }
    else {

@@ -1,3 +1,12 @@
+<?php
+session_start();
+if($_SESSION['loggedin']== false)
+{
+  header("location: logout.php");
+}
+
+
+ ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -31,10 +40,10 @@
 <!-- Logo -->
 <div class="header-left">
 	<a href="index.php" class="logo">
-		<img src="assets/img/logo.png" alt="Logo">
+		<img src="assets/img/eca-logo.png" alt="Logo">
 	</a>
 	<a href="index.php" class="logo logo-small">
-		<img src="assets/img/biblio.png" alt="Logo" width="30" height="30">
+		<img src="assets/img/Cadi-Ayyad-logo.png" alt="Logo" width="30" height="30">
 	</a>
 </div>
 <!-- /Logo -->
@@ -43,14 +52,7 @@
 	<i class="fas fa-align-left"></i>
 </a>
 
-<!-- Search Bar -->
-<div class="top-nav-search">
-	<form>
-		<input type="text" class="form-control" placeholder="Search here">
-		<button class="btn" type="submit"><i class="fas fa-search"></i></button>
-	</form>
-</div>
-<!-- /Search Bar -->
+
 
 <!-- Mobile Menu Toggle -->
 <a class="mobile_btn" id="mobile_btn">
@@ -89,24 +91,24 @@
 	<!-- /Notifications -->
 
 	<!-- User Menu -->
-<li class="nav-item dropdown has-arrow">
-		<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-			<span class="user-img"><img class="rounded-circle" src="assets/img/profiles/avatar-02.jpg" width="31" alt="Ryan Taylor"></span>
-		</a>
-		<div class="dropdown-menu">
-			<div class="user-header">
-				<div class="avatar avatar-sm">
-					<img src="assets/img/profiles/avatar-02.jpg" alt="User Image" class="avatar-img rounded-circle">
-				</div>
-				<div class="user-text">
-					<h6>Rawbati Ilham</h6>
-					<p class="text-muted mb-0">Administrateur</p>
-				</div>
-			</div>
-			<a class="dropdown-item" href="profile.php">My Profile</a>
-			<a class="dropdown-item" href="login.php">Logout</a>
-		</div>
-	</li>
+  <li class="nav-item dropdown has-arrow">
+    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+      <span class="user-img"><img class="rounded-circle" src="<?php echo $_SESSION['admin']['image']; ?>" width="31" alt="Ryan Taylor"></span>
+    </a>
+    <div class="dropdown-menu">
+      <div class="user-header">
+        <div class="avatar avatar-sm">
+          <img src="<?php echo $_SESSION['admin']['image']; ?>" alt="User Image" class="avatar-img rounded-circle">
+        </div>
+        <div class="user-text">
+          <h6><?php echo $_SESSION['admin']['nom_adm']." ".$_SESSION['admin']['prenom']; ?></h6>
+          <p class="text-muted mb-0">Administrateur</p>
+        </div>
+      </div>
+      <a class="dropdown-item" href="profile.php">My Profile</a>
+      <a class="dropdown-item" href="login.php">Logout</a>
+    </div>
+  </li>
 	<!-- /User Menu -->
 
 </ul>
@@ -117,98 +119,101 @@
 
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
-<div class="sidebar-inner slimscroll">
+    <div class="sidebar-inner slimscroll">
 <div id="sidebar-menu" class="sidebar-menu">
 <ul>
-<li class="menu-title">
-<span>Main Menu</span>
-</li>
-<li class="active">
-<a href="index.php"><i class="fas fa-th-large"></i> <span>Dashboard</span></a>
-</li>
-<li class="submenu">
-<a href="#"><i class="fas fa-user-graduate"></i> <span> Students</span> <span class="menu-arrow"></span></a>
-<ul>
+  <li class="menu-title">
+    <span>Main Menu</span>
+  </li>
+  <li class="active">
+    <a href="index.php"><i class="fas fa-th-large"></i> <span>Dashboard</span></a>
+  </li>
+  <li class="submenu">
+    <a href="#"><i class="fas fa-user-graduate"></i> <span> Students</span> <span class="menu-arrow"></span></a>
+    <ul>
 
-<li><a href="students.php">Student List</a></li>
-<li><a href="add-student.php">Student Add</a></li>
-<li><a href="edit-student.php">Student Edit</a></li>
-</ul>
-</li>
-<li class="submenu">
-<a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Teachers</span> <span class="menu-arrow"></span></a>
-<ul>
-<li><a href="teachers.php">Teacher List</a></li>
-<li><a href="add-teacher.php">Teacher Add</a></li>
-<li><a href="edit-teacher.php">Teacher Edit</a></li>
-</ul>
-</li>
-<li class="submenu">
-<a href="#"><i class="fas fa-building"></i> <span> Liste des emprunteurs</span> <span class="menu-arrow"></span></a>
-<ul>
+     <li><a href="students.php">Student List</a></li>
+      <li><a href="add-student.php">Student Add</a></li>
 
-<li><a href="emprunte-etudiants.php">Liste des étudiants</a></li>
-<li><a href="emprunte-enseignants.php">Liste des enseignants</a></li>
-</ul>
-</li>
-<li class="submenu">
-<a href="#"><i class="fas fa-book-reader"></i> <span> Library</span> <span class="menu-arrow"></span></a>
-<ul>
-<li><a href="#"><i class="fas fa-book-reader"></i> <span> Categorie</span> <span class="menu-arrow"></span></a>
-<ul>
-	<li><a href="categorie.php"> List</a></li>
-	<li><a href="add-categorie.php">Add</a></li>
-</ul>
-</li>
-<li>
-<a href="#"><i class="fas fa-book"></i> <span>volumes</span><span class="menu-arrow"></span></a>
-<ul>
-<li>
-	<a href="#"><i class="fas fa-book"></i> <span>Livres</span><span class="menu-arrow"></span></a>
-	<ul>
+    </ul>
+  </li>
+  <li class="submenu">
+    <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Teachers</span> <span class="menu-arrow"></span></a>
+    <ul>
+      <li><a href="teachers.php">Teacher List</a></li>
+      <li><a href="add-teacher.php">Teacher Add</a></li>
 
-	<li><a href="livres.php"> List</a></li>
-	<li><a href="add-livre.php"> Add</a></li>
+    </ul>
+  </li>
+  <li class="submenu">
+    <a href="#"><i class="fas fa-building"></i> <span> Liste des emprunteurs</span> <span class="menu-arrow"></span></a>
+    <ul>
 
-	</ul>
-</li>
+      <li><a href="emprunte-etudiants.php">Liste des étudiants</a></li>
+      <li><a href="emprunte-enseignants.php">Liste des enseignants</a></li>
+      <li><a href="add-emprunteur.php">Add emprunteur</a></li>
+    </ul>
+  </li>
+  <li class="submenu">
+    <a href="#"><i class="fas fa-book-reader"></i> <span> Library</span> <span class="menu-arrow"></span></a>
+    <ul>
+      <li><a href="#"><i class="fas fa-book-reader"></i> <span> Categorie</span> <span class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="categorie.php"> List</a></li>
+            <li><a href="add-categorie.php">Add</a></li>
+          </ul>
+      </li>
+      <li>
+        <a href="#"><i class="fas fa-book"></i> <span>volumes</span><span class="menu-arrow"></span></a>
+         <ul>
+      <li>
+           <a href="#"><i class="fas fa-book"></i> <span>Livres</span><span class="menu-arrow"></span></a>
+            <ul>
 
-<li>
-	<a href="#"><i class="fas fa-book"></i> <span>Polycopes</span><span class="menu-arrow"></span></a>
-	<ul>
+           <li><a href="livres.php"> List</a></li>
+           <li><a href="add-livre.php"> Add</a></li>
 
-	<li><a href="Polycopes.php"> List</a></li>
-	<li><a href="add-polycope.php"> Add</a></li>
+             </ul>
+      </li>
 
-	</ul>
-</li>
+      <li>
+           <a href="#"><i class="fas fa-book"></i> <span>Polycopes</span><span class="menu-arrow"></span></a>
+            <ul>
 
-<li>
-	<a href="#"><i class="fas fa-book"></i> <span>Dictionnaire</span><span class="menu-arrow"></span></a>
-	<ul>
+           <li><a href="polycopes.php"> List</a></li>
+           <li><a href="add-polycope.php"> Add</a></li>
 
-	<li><a href="Dictionnaire.php"> List</a></li>
-	<li><a href="add-dictionnaire.php"> Add</a></li>
-	</ul>
-</li>
+             </ul>
+      </li>
 
+      <li>
+           <a href="#"><i class="fas fa-book"></i> <span>Dictionnaire</span><span class="menu-arrow"></span></a>
+            <ul>
 
-</ul>
-</li>
+              <li><a href="Dictionnaire.php"> List</a></li>
+              <li><a href="add-dictionnaire.php"> Add</a></li>
+             </ul>
+      </li>
 
 
+    </ul>
+  </li>
+
+  <li class="submenu">
+    <a href="#"><i class="fas fa-inbox"></i> <span>Reservations</span> <span class="menu-arrow"></span></a>
+    <ul>
+      <li><a href="reservations.php">les Reservations</a></li>
 
 
-
-
-
+    </ul>
+  </li>
 
 
 
 
 </ul>
 </div>
-</div>
+    </div>
 </div>
 <!-- /Sidebar -->
 
@@ -242,8 +247,8 @@
 		</div>
 		<div class="col-12 col-sm-6">
 			<div class="form-group">
-				<label>ID</label>
-				<input type="text" name="txtid" class="form-control">
+				<label>image</label>
+				<input type="file" name="photo" class="form-control">
 			</div>
 		</div>
 		<div class="col-12 col-sm-6">

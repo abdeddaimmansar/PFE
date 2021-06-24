@@ -1,5 +1,9 @@
 <?php
  session_start();
+ if($_SESSION['loggedin']== false)
+ {
+   header("location: logout.php");
+ }
   /*  session_start();
     if(!$_SESSION['loggedin'])
     {
@@ -7,6 +11,7 @@
        exit;
 
     }*/
+    
 $_SESSION['isthere']=false;
       if(ISSET($_GET['idliv']))
       {
@@ -15,6 +20,7 @@ $_SESSION['isthere']=false;
            include("conn.php");
            $vol = new conn();
           $fetch = $vol->GetVolume($id);
+           $_SESSION['fetch']= $fetch;
 
       }
       else if(isset($_GET['idpoly'])){
@@ -25,7 +31,11 @@ $_SESSION['isthere']=false;
            $_SESSION['fetch']= $fetch;
       }
       else {
-        echo "string";
+        $id = $_GET['iddic'];
+        include("conn.php");
+        $vol = new conn();
+        $fetch = $vol->GetDictionnaire($id);
+        $_SESSION['fetch']= $fetch;
       }
 
 
@@ -64,11 +74,10 @@ $_SESSION['isthere']=false;
 				<!-- Logo -->
                 <div class="header-left">
                     <a href="index.php" class="logo">
-						<img src="assets/img/logo.png" alt="Logo">
+						<img src="assets/img/eca-logo.png" alt="Logo">
 					</a>
 					<a href="index.php" class="logo logo-small">
-						<img src="assets/img/biblio.png" alt="Logo" width="30" height="30">
-					</a>
+<img src="assets/img/Cadi-Ayyad-logo.png" alt="Logo" width="30" height="30">					</a>
                 </div>
 				<!-- /Logo -->
 
@@ -76,14 +85,6 @@ $_SESSION['isthere']=false;
 					<i class="fas fa-align-left"></i>
 				</a>
 
-				<!-- Search Bar -->
-				<div class="top-nav-search">
-					<form action="searchstudent.php" method="post" >
-						<input type="text" class="form-control" placeholder="Search here">
-						<button class="btn" name="search" type="submit"><i class="fas fa-search"></i></button>
-					</form>
-				</div>
-				<!-- /Search Bar -->
 
 				<!-- Mobile Menu Toggle -->
 				<a class="mobile_btn" id="mobile_btn">
@@ -99,45 +100,41 @@ $_SESSION['isthere']=false;
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 							<i class="far fa-bell"></i> <span class="badge badge-pill"></span>
 						</a>
-						<div class="dropdown-menu notifications">
-							<div class="topnav-dropdown-header">
-								<span class="notification-title">Notifications</span>
-								<a href="javascript:void(0)" class="clear-noti"> Clear All </a>
-							</div>
-							<div class="noti-content">
-								<ul class="notification-list">
-									<li class="notification-message">
-										<a href="#">
+            <div class="noti-content">
+              <ul class="notification-list">
+                <?php foreach ($reservation as $reser){ ?>
 
-										</a>
-									</li>
+                <li class="notification-message">
+                  <a href="#">
+                    <div class="media">
+                     <?php echo $reser["nom_Adh"]." Reserver Volume  ".$reser["titre"]; ?>
 
-								</ul>
-							</div>
-							<div class="topnav-dropdown-footer">
-								<a href="#">View all Notifications</a>
-							</div>
-						</div>
+                    </div>
+                  </a>
+                </li>
+              <?php } ?>
+              </ul>
+            </div>
 					</li>
 					<!-- /Notifications -->
 
 					<!-- User Menu -->
           <li class="nav-item dropdown has-arrow">
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-							<span class="user-img"><img class="rounded-circle" src="assets/img/profiles/avatar-02.jpg" width="31" alt="Ryan Taylor"></span>
+							<span class="user-img"><img class="rounded-circle" src="<?php echo $_SESSION['admin']['image']; ?>" width="31" alt="Ryan Taylor"></span>
 						</a>
 						<div class="dropdown-menu">
 							<div class="user-header">
 								<div class="avatar avatar-sm">
-									<img src="assets/img/profiles/avatar-02.jpg" alt="User Image" class="avatar-img rounded-circle">
+									<img src="<?php echo $_SESSION['admin']['image']; ?>" alt="User Image" class="avatar-img rounded-circle">
 								</div>
 								<div class="user-text">
-									<h6>Rawbati Ilham</h6>
+									<h6><?php echo $_SESSION['admin']['nom_adm']." ".$_SESSION['admin']['prenom']; ?></h6>
 									<p class="text-muted mb-0">Administrateur</p>
 								</div>
 							</div>
 							<a class="dropdown-item" href="profile.php">My Profile</a>
-							<a class="dropdown-item" href="logout.php">Logout</a>
+							<a class="dropdown-item" href="login.php">Logout</a>
 						</div>
 					</li>
 					<!-- /User Menu -->
@@ -165,7 +162,7 @@ $_SESSION['isthere']=false;
 
            <li><a href="students.php">Student List</a></li>
             <li><a href="add-student.php">Student Add</a></li>
-            <li><a href="edit-student.php">Student Edit</a></li>
+
           </ul>
         </li>
         <li class="submenu">
@@ -173,7 +170,7 @@ $_SESSION['isthere']=false;
           <ul>
             <li><a href="teachers.php">Teacher List</a></li>
             <li><a href="add-teacher.php">Teacher Add</a></li>
-            <li><a href="edit-teacher.php">Teacher Edit</a></li>
+
           </ul>
         </li>
         <li class="submenu">
@@ -182,6 +179,7 @@ $_SESSION['isthere']=false;
 
             <li><a href="emprunte-etudiants.php">Liste des étudiants</a></li>
             <li><a href="emprunte-enseignants.php">Liste des enseignants</a></li>
+            <li><a href="add-emprunteur.php">Add emprunteur</a></li>
           </ul>
         </li>
         <li class="submenu">
@@ -210,7 +208,7 @@ $_SESSION['isthere']=false;
                  <a href="#"><i class="fas fa-book"></i> <span>Polycopes</span><span class="menu-arrow"></span></a>
                   <ul>
 
-                 <li><a href="Polycopes.php"> List</a></li>
+                 <li><a href="polycopes.php"> List</a></li>
                  <li><a href="add-polycope.php"> Add</a></li>
 
                    </ul>
@@ -229,12 +227,14 @@ $_SESSION['isthere']=false;
           </ul>
         </li>
 
+        <li class="submenu">
+          <a href="#"><i class="fas fa-inbox"></i> <span>Reservations</span> <span class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="reservations.php">les Reservations</a></li>
 
 
-
-
-
-
+          </ul>
+        </li>
 
 
 
@@ -275,7 +275,7 @@ $_SESSION['isthere']=false;
                       <div class="col-12 col-sm-6">
                         <div class="form-group">
                           <label>image</label>
-                        <img width=50 src='<?php echo $fetch["image"]; ?>' class="form-control" >
+                        <img width="100" src='<?php echo $fetch["image_v"]; ?>' class="avatar-img rounded-circle>
                           <input type="file" name="photo" class="form-control" >
                         </div>
                       </div>

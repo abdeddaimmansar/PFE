@@ -1,20 +1,25 @@
 <?php
-// We need to use sessions, so you should always start sessions using the below code.
 session_start();
 if($_SESSION['loggedin']== false)
 {
   header("location: logout.php");
-}?>
+}
+include("Volume.php");
+$student = new Volume();
+$fetch = $student->Reservation();
+
+
+ ?>
 
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-        <title>Teachers</title>
+        <title>Liste des emprunteurs</title>
 
 		<!-- Favicon -->
-        <link rel="shortcut icon" href="assets/img/biblio.jpg">
+        <link rel="shortcut icon" href="assets/img/favicon.png">
 
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,400&display=swap">
 
@@ -42,10 +47,10 @@ if($_SESSION['loggedin']== false)
 				<!-- Logo -->
                 <div class="header-left">
                     <a href="index.php" class="logo">
-						<img src="assets/img/eca-logo.png" alt="Logo">
+						<img src="assets/img/logo.png" alt="Logo">
 					</a>
 					<a href="index.php" class="logo logo-small">
-						<img src="assets/img/Cadi-Ayyad-logo.png" alt="Logo" width="30" height="30">
+            <img src="assets/img/Cadi-Ayyad-logo.png" alt="Logo" width="30" height="30">
 					</a>
                 </div>
 				<!-- /Logo -->
@@ -67,57 +72,48 @@ if($_SESSION['loggedin']== false)
 
 					<!-- Notifications -->
           <li class="nav-item dropdown noti-dropdown">
-            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-              <i class="far fa-bell"></i> <span class="badge badge-pill"></span>
-            </a>
-            <div class="dropdown-menu notifications">
-              <div class="topnav-dropdown-header">
-                <span class="notification-title">Notifications</span>
-                <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
-              </div>
-              <div class="noti-content">
-                <ul class="notification-list">
-                  <?php
-                 
-                   foreach ($reservation as $reser){ ?>
+						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+							<i class="far fa-bell"></i> <span class="badge badge-pill"></span>
+						</a>
+            <div class="noti-content">
+              <ul class="notification-list">
+                <?php include("Volume.php");
+                $vol = new Volume();
+                $reservation = $vol->Reservation(); foreach ($reservation as $reser){ ?>
 
-                  <li class="notification-message">
-                    <a href="#">
-                      <div class="media">
-                       <?php echo $reser["nom_Adh"]." Reserver Volume  ".$reser["titre"]; ?>
+                <li class="notification-message">
+                  <a href="#">
+                    <div class="media">
+                     <?php echo $reser["nom_Adh"]." Reserver Volume  ".$reser["titre"]; ?>
 
-                      </div>
-                    </a>
-                  </li>
-                <?php } ?>
-                </ul>
-              </div>
-              <div class="topnav-dropdown-footer">
-                <a href="reservations.php">View all Notifications</a>
-              </div>
+                    </div>
+                  </a>
+                </li>
+              <?php } ?>
+              </ul>
             </div>
-          </li>
+					</li>
 					<!-- /Notifications -->
 
 					<!-- User Menu -->
           <li class="nav-item dropdown has-arrow">
-						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-							<span class="user-img"><img class="rounded-circle" src="<?php echo $_SESSION['admin']['image']; ?>" width="31" alt="Ryan Taylor"></span>
-						</a>
-						<div class="dropdown-menu">
-							<div class="user-header">
-								<div class="avatar avatar-sm">
-									<img src="<?php echo $_SESSION['admin']['image']; ?>" alt="User Image" class="avatar-img rounded-circle">
-								</div>
-								<div class="user-text">
-									<h6><?php echo $_SESSION['admin']['nom_adm']." ".$_SESSION['admin']['prenom']; ?></h6>
-									<p class="text-muted mb-0">Administrateur</p>
-								</div>
-							</div>
-							<a class="dropdown-item" href="profile.php">My Profile</a>
-							<a class="dropdown-item" href="logout.php">Logout</a>
-						</div>
-					</li>
+            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+              <span class="user-img"><img class="rounded-circle" src="<?php echo $_SESSION['admin']['image']; ?>" width="31" alt="Ryan Taylor"></span>
+            </a>
+            <div class="dropdown-menu">
+              <div class="user-header">
+                <div class="avatar avatar-sm">
+                  <img src="<?php echo $_SESSION['admin']['image']; ?>" alt="User Image" class="avatar-img rounded-circle">
+                </div>
+                <div class="user-text">
+                  <h6><?php echo $_SESSION['admin']['nom_adm']." ".$_SESSION['admin']['prenom']; ?></h6>
+                  <p class="text-muted mb-0">Administrateur</p>
+                </div>
+              </div>
+              <a class="dropdown-item" href="profile.php">My Profile</a>
+              <a class="dropdown-item" href="login.php">Logout</a>
+            </div>
+          </li>
 					<!-- /User Menu -->
 
 				</ul>
@@ -234,18 +230,16 @@ if($_SESSION['loggedin']== false)
 					<div class="page-header">
 						<div class="row align-items-center">
 							<div class="col">
-								<h3 class="page-title">Teachers</h3>
+								<h3 class="page-title">Liste des étudiants</h3>
 								<ul class="breadcrumb">
 									<li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-
-									<li class="breadcrumb-item active">Teachers</li>
+									<li class="breadcrumb-item active">Liste des étudiants</li>
 								</ul>
 							</div>
-              <div class="col-auto text-right float-right ml-auto">
+							<div class="col-auto text-right float-right ml-auto">
 
-                <a href="add-teacher.php" class="btn btn-primary"><i class="fas fa-plus"></i></a>
-              </div>
 
+							</div>
 						</div>
 					</div>
 					<!-- /Page Header -->
@@ -256,53 +250,42 @@ if($_SESSION['loggedin']== false)
 							<div class="card card-table">
 								<div class="card-body">
 									<div class="table-responsive">
-<?php
-  	include("conn.php");
-  	$conn=new conn();
-    $liste=$conn->listeAdherents();
-?>
 										<table class="table table-hover table-center mb-0 datatable">
 											<thead>
 												<tr>
-													<th>ID</th>
-                          <th>Nom</th>
-                          <th>Prénom</th>
-                          <th>Image</th>
-													<th>Département</th>
 
-													<th>Téléphone</th>
-													<th>Email</th>
-                          <th>nbr_emprunt</th>
+													<th>Nom</th>
+													<th>Volume</th>
+                          <th>Date du Reservation</th>
+
 
 													<th class="text-right">Action</th>
 												</tr>
 											</thead>
-											<tbody>
-                        <?php
-                        		foreach ($liste as $ls) {
-                              echo "<tr>
-                              <td>".$ls[0]."</td>
-                              <td>".$ls[1]. " </td>
-                              <td>".$ls[2]."</td>
-                              <td><img width=80 src='".$ls[3]."'></td>
-                              <td>".$ls[4]."</td>
-                              <td>".$ls[5]."</td>
-                              <td>".$ls[6]."</td>
-                              <td>".$ls[7]."</td>
+                      <tbody>
 
-                              " ;?>
-															<td class="text-right">
-																<div class="actions">
-																		<a href="borrow-teacher.php?cin=<?=$ls[0]?>" class="btn btn-sm bg-success-light mr-2">
-																			 <i class="fas fa-plus"></i>
-																		</a>
 
-																</div>
-															</td>
+                       <?php foreach ($fetch as $emprunter) {
 
-                    <?php } echo "  </tr>"; ?>
+                         ?>
+                         <tr>
+                           <td><?php echo $emprunter["nom_Adh"]; ?></td>
+                           <td><?php echo $emprunter["titre"]; ?></td>
+                            <td><?php echo $emprunter["date_Res"]; ?></td>
+                             <td class="text-right">
+                              <div class="actions">
+                                  <a href="edit-emprunt.php?cin=<?=$emprunter["cin"]?>" class="btn btn-sm bg-success-light mr-2">
+                                     <i class="fas fa-pen"></i>
+                                  </a>
+                                    <a href="borrow.php?deletEmpEtu=<?=$emprunter["cin"]?>"  class="btn btn-sm bg-danger-light">
+                                     <i class="fas fa-trash"></i>
+                                  </a>
+                              </div>
+                            </td>
+                         </tr>
 
-											</tbody>
+                               </tbody>
+                             <?php } ?>
 										</table>
 									</div>
 								</div>
@@ -313,9 +296,10 @@ if($_SESSION['loggedin']== false)
 
 				<!-- Footer -->
 				<footer>
-           <p>École Supérieure de Technologie - SAFI.</p>
+					<p>École Supérieure de Technologie - SAFI.</p>
 				</footer>
 				<!-- /Footer -->
+
 			</div>
 			<!-- /Page Wrapper -->
 

@@ -1,7 +1,15 @@
 <?php
-include 'conn.php';
-$teacher = new conn();
-$fetch  = $teacher->EmpTeacher();
+session_start();
+if($_SESSION['loggedin']== false)
+{
+  header("location: logout.php");
+}
+include 'Adherent.php';
+$teacher = new Enseignant();
+$fetch  = $teacher->GetEmprunt();
+include("Volume.php");
+$vol = new Volume();
+$reservation = $vol->Reservation();
 
 
 
@@ -42,11 +50,10 @@ $fetch  = $teacher->EmpTeacher();
 				<!-- Logo -->
                 <div class="header-left">
                     <a href="index.php" class="logo">
-						<img src="assets/img/logo.png" alt="Logo">
+						<img src="assets/img/eca-logo.png" alt="Logo">
 					</a>
 					<a href="index.php" class="logo logo-small">
-						<img src="assets/img/biblio.png" alt="Logo" width="30" height="30">
-					</a>
+<img src="assets/img/Cadi-Ayyad-logo.png" alt="Logo" width="30" height="30">					</a>
                 </div>
 				<!-- /Logo -->
 
@@ -54,14 +61,7 @@ $fetch  = $teacher->EmpTeacher();
 					<i class="fas fa-align-left"></i>
 				</a>
 
-				<!-- Search Bar -->
-				<div class="top-nav-search">
-					<form>
-						<input type="text" class="form-control" placeholder="Search here">
-						<button class="btn" type="submit"><i class="fas fa-search"></i></button>
-					</form>
-				</div>
-				<!-- /Search Bar -->
+
 
 				<!-- Mobile Menu Toggle -->
 				<a class="mobile_btn" id="mobile_btn">
@@ -84,16 +84,21 @@ $fetch  = $teacher->EmpTeacher();
 							</div>
 							<div class="noti-content">
 								<ul class="notification-list">
+                  <?php  foreach ($reservation as $reser){ ?>
+
 									<li class="notification-message">
 										<a href="#">
+											<div class="media">
+                       <?php echo $reser["nom_Adh"]." Reserver Volume  ".$reser["titre"]; ?>
 
+											</div>
 										</a>
 									</li>
-
+                <?php } ?>
 								</ul>
 							</div>
 							<div class="topnav-dropdown-footer">
-								<a href="#">View all Notifications</a>
+								<a href="reservations.php">View all Notifications</a>
 							</div>
 						</div>
 					</li>
@@ -102,15 +107,15 @@ $fetch  = $teacher->EmpTeacher();
 					<!-- User Menu -->
           <li class="nav-item dropdown has-arrow">
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-							<span class="user-img"><img class="rounded-circle" src="assets/img/profiles/avatar-02.jpg" width="31" alt="Ryan Taylor"></span>
+							<span class="user-img"><img class="rounded-circle" src="<?php echo $_SESSION['admin']['image']; ?>" width="31" alt="Ryan Taylor"></span>
 						</a>
 						<div class="dropdown-menu">
 							<div class="user-header">
 								<div class="avatar avatar-sm">
-									<img src="assets/img/profiles/avatar-02.jpg" alt="User Image" class="avatar-img rounded-circle">
+									<img src="<?php echo $_SESSION['admin']['image']; ?>" alt="User Image" class="avatar-img rounded-circle">
 								</div>
 								<div class="user-text">
-									<h6>Rawbati Ilham</h6>
+									<h6><?php echo $_SESSION['admin']['nom_adm']." ".$_SESSION['admin']['prenom']; ?></h6>
 									<p class="text-muted mb-0">Administrateur</p>
 								</div>
 							</div>
@@ -143,7 +148,7 @@ $fetch  = $teacher->EmpTeacher();
 
            <li><a href="students.php">Student List</a></li>
             <li><a href="add-student.php">Student Add</a></li>
-            <li><a href="edit-student.php">Student Edit</a></li>
+
           </ul>
         </li>
         <li class="submenu">
@@ -151,7 +156,7 @@ $fetch  = $teacher->EmpTeacher();
           <ul>
             <li><a href="teachers.php">Teacher List</a></li>
             <li><a href="add-teacher.php">Teacher Add</a></li>
-            <li><a href="edit-teacher.php">Teacher Edit</a></li>
+
           </ul>
         </li>
         <li class="submenu">
@@ -160,6 +165,7 @@ $fetch  = $teacher->EmpTeacher();
 
             <li><a href="emprunte-etudiants.php">Liste des étudiants</a></li>
             <li><a href="emprunte-enseignants.php">Liste des enseignants</a></li>
+            <li><a href="add-emprunteur.php">Add emprunteur</a></li>
           </ul>
         </li>
         <li class="submenu">
@@ -188,7 +194,7 @@ $fetch  = $teacher->EmpTeacher();
                  <a href="#"><i class="fas fa-book"></i> <span>Polycopes</span><span class="menu-arrow"></span></a>
                   <ul>
 
-                 <li><a href="Polycopes.php"> List</a></li>
+                 <li><a href="polycopes.php"> List</a></li>
                  <li><a href="add-polycope.php"> Add</a></li>
 
                    </ul>
@@ -207,12 +213,14 @@ $fetch  = $teacher->EmpTeacher();
           </ul>
         </li>
 
+        <li class="submenu">
+          <a href="#"><i class="fas fa-inbox"></i> <span>Reservations</span> <span class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="reservations.php">les Reservations</a></li>
 
 
-
-
-
-
+          </ul>
+        </li>
 
 
 
@@ -238,7 +246,7 @@ $fetch  = $teacher->EmpTeacher();
 								</ul>
 							</div>
 							<div class="col-auto text-right float-right ml-auto">
-								<a href="#" class="btn btn-outline-primary mr-2"><i class="fas fa-download"></i> Download</a>
+
 
 							</div>
 						</div>
@@ -274,10 +282,10 @@ $fetch  = $teacher->EmpTeacher();
                            <td><?php echo $emprunter["dateRet"]; ?></td>
                            <td class="text-right">
                              <div class="actions">
-                                 <a href="edit-emprunteur.php?ETcin=<?=$ls[0]?>" class="btn btn-sm bg-success-light mr-2">
+                                 <a href="edit-emprunt.php?ETcin=<?=$emprunter[0]?>" class="btn btn-sm bg-success-light mr-2">
                                     <i class="fas fa-pen"></i>
                                  </a>
-                                   <a href="edit-emprunter.php?DTcin=<?=$ls[0]?>"  class="btn btn-sm bg-danger-light">
+                                   <a href="edit-emprunter.php?DTcin=<?=$emprunter[0]?>"  class="btn btn-sm bg-danger-light">
                                     <i class="fas fa-trash"></i>
                                  </a>
                              </div>

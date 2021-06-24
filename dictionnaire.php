@@ -1,3 +1,11 @@
+<?php
+session_start();
+if($_SESSION['loggedin']== false)
+{
+  header("location: logout.php");
+}
+
+ ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -37,7 +45,7 @@
 						<img src="assets/img/eca-logo.png" alt="Logo">
 					</a>
 					<a href="index.php" class="logo logo-small">
-						<img src="assets/img/biblio.png" alt="Logo" width="30" height="30">
+										<img src="assets/img/Cadi-Ayyad-logo.png" alt="Logo" width="30" height="30">
 					</a>
                 </div>
 				<!-- /Logo -->
@@ -46,14 +54,6 @@
 					<i class="fas fa-align-left"></i>
 				</a>
 
-				<!-- Search Bar -->
-				<div class="top-nav-search">
-					<form>
-						<input type="text" class="form-control" placeholder="Search here">
-						<button class="btn" type="submit"><i class="fas fa-search"></i></button>
-					</form>
-				</div>
-				<!-- /Search Bar -->
 
 				<!-- Mobile Menu Toggle -->
 				<a class="mobile_btn" id="mobile_btn">
@@ -94,15 +94,15 @@
 					<!-- User Menu -->
           <li class="nav-item dropdown has-arrow">
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-							<span class="user-img"><img class="rounded-circle" src="assets/img/profiles/avatar-02.jpg" width="31" alt="Ryan Taylor"></span>
+							<span class="user-img"><img class="rounded-circle" src="<?php echo $_SESSION['admin']['image']; ?>" width="31" alt="Ryan Taylor"></span>
 						</a>
 						<div class="dropdown-menu">
 							<div class="user-header">
 								<div class="avatar avatar-sm">
-									<img src="assets/img/profiles/avatar-02.jpg" alt="User Image" class="avatar-img rounded-circle">
+									<img src="<?php echo $_SESSION['admin']['image']; ?>" alt="User Image" class="avatar-img rounded-circle">
 								</div>
 								<div class="user-text">
-									<h6>Rawbati Ilham</h6>
+									<h6><?php echo $_SESSION['admin']['nom_adm']." ".$_SESSION['admin']['prenom']; ?></h6>
 									<p class="text-muted mb-0">Administrateur</p>
 								</div>
 							</div>
@@ -135,7 +135,7 @@
 
            <li><a href="students.php">Student List</a></li>
             <li><a href="add-student.php">Student Add</a></li>
-            <li><a href="edit-student.php">Student Edit</a></li>
+
           </ul>
         </li>
         <li class="submenu">
@@ -143,7 +143,7 @@
           <ul>
             <li><a href="teachers.php">Teacher List</a></li>
             <li><a href="add-teacher.php">Teacher Add</a></li>
-            <li><a href="edit-teacher.php">Teacher Edit</a></li>
+
           </ul>
         </li>
         <li class="submenu">
@@ -152,6 +152,7 @@
 
             <li><a href="emprunte-etudiants.php">Liste des étudiants</a></li>
             <li><a href="emprunte-enseignants.php">Liste des enseignants</a></li>
+            <li><a href="add-emprunteur.php">Add emprunteur</a></li>
           </ul>
         </li>
         <li class="submenu">
@@ -180,7 +181,7 @@
                  <a href="#"><i class="fas fa-book"></i> <span>Polycopes</span><span class="menu-arrow"></span></a>
                   <ul>
 
-                 <li><a href="Polycopes.php"> List</a></li>
+                 <li><a href="polycopes.php"> List</a></li>
                  <li><a href="add-polycope.php"> Add</a></li>
 
                    </ul>
@@ -199,12 +200,14 @@
           </ul>
         </li>
 
+        <li class="submenu">
+          <a href="#"><i class="fas fa-inbox"></i> <span>Reservations</span> <span class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="reservations.php">les Reservations</a></li>
 
 
-
-
-
-
+          </ul>
+        </li>
 
 
 
@@ -230,7 +233,7 @@
 								</ul>
 							</div>
 							<div class="col-auto text-right float-right ml-auto">
-								<a href="#" class="btn btn-outline-primary mr-2"><i class="fas fa-download"></i> Download</a>
+
 								<a href="add-dictionnaire.php" class="btn btn-primary"><i class="fas fa-plus"></i></a>
 							</div>
 						</div>
@@ -277,27 +280,27 @@
 												</tr>
 											</thead>
 											<tbody>
-											<?php
-												  foreach ($liste as $ls) {
-												echo "<tr>
-												<td>".$ls[0]."</td>
-												<td>".$ls[1]. " </td>
-												<td><img width=100  src='".$ls[2]."'></td>
-												<td>".$ls[3]."</td>
-												<td>".$ls[4]."</td>
-												<td>".$ls[5]."</td>
-												<td>".$ls[6]."</td>
-												<td>".$ls[7]."</td>
-												<td><a href='edit-dictionnaire.php?id_Vol=$ls[0]' class='btn btn-sm bg-success-light mr-2'>
+											     <?php
+												  foreach ($liste as $ls) {?>
+											<tr>
+												<td><?php echo $ls["id_vol"]; ?></td>
+												<td><?php echo $ls["titre"]; ?></td>
+												<td><img width=100  src="<?php echo $ls["image_v"]; ?>"></td>
+												<td><?php echo $ls["auteur"]; ?></td>
+												<td><?php echo $ls["editeur"]; ?></td>
+												<td><?php echo $ls["Emplacement"]; ?></td>
+												<td><?php echo $ls["status"]; ?></td>
+												<td><?php echo $ls["language"]; ?></td>
+												<td><a href="edit-dictionnaire.php?id_vol=<?=$ls["id_vol"];?>" class='btn btn-sm bg-success-light mr-2'>
 																<i class='fas fa-pen'></i>
 													</a>
-                                                    <a href='delete-dictionnaire.php?id_Vol=$ls[0]' class='btn btn-sm bg-danger-light'>
-																<i class='fas fa-trash'></i>
+                                                    <a href="saveDic.php?deletedic=<?=$ls["id_vol"]; ?>" class="btn btn-sm bg-danger-light">
+																<i class="fas fa-trash"></i>
 													</a>
                                                  </td>
 
-												</tr>" ;
-												}
+												</tr>
+									<?php			}
 
 											?>
 

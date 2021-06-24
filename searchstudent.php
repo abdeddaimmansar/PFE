@@ -1,3 +1,12 @@
+<?php
+session_start();
+if($_SESSION['loggedin']== false)
+{
+  header("location: logout.php");
+}
+
+
+ ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -37,7 +46,7 @@
 						<img src="assets/img/eca-logo.png" alt="Logo">
 					</a>
 					<a href="index.php" class="logo logo-small">
-						<img src="assets/img/biblio.png" alt="Logo" width="30" height="30">
+            <img src="assets/img/Cadi-Ayyad-logo.png" alt="Logo" width="30" height="30">
 					</a>
                 </div>
 				<!-- /Logo -->
@@ -46,14 +55,6 @@
 					<i class="fas fa-align-left"></i>
 				</a>
 
-				<!-- Search Bar -->
-				<div class="top-nav-search">
-					<form>
-						<input type="text" class="form-control" placeholder="Search here">
-						<button class="btn" type="submit"><i class="fas fa-search"></i></button>
-					</form>
-				</div>
-				<!-- /Search Bar -->
 
 				<!-- Mobile Menu Toggle -->
 				<a class="mobile_btn" id="mobile_btn">
@@ -65,7 +66,7 @@
 				<ul class="nav user-menu">
 
 					<!-- Notifications -->
-					<li class="nav-item dropdown noti-dropdown">
+          <li class="nav-item dropdown noti-dropdown">
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 							<i class="far fa-bell"></i> <span class="badge badge-pill"></span>
 						</a>
@@ -76,16 +77,23 @@
 							</div>
 							<div class="noti-content">
 								<ul class="notification-list">
+                  <?php
+                   
+                   foreach ($reservation as $reser){ ?>
+
 									<li class="notification-message">
 										<a href="#">
+											<div class="media">
+                       <?php echo $reser["nom_Adh"]." Reserver Volume  ".$reser["titre"]; ?>
 
+											</div>
 										</a>
 									</li>
-
+                <?php } ?>
 								</ul>
 							</div>
 							<div class="topnav-dropdown-footer">
-								<a href="#">View all Notifications</a>
+								<a href="reservations.php">View all Notifications</a>
 							</div>
 						</div>
 					</li>
@@ -93,23 +101,23 @@
 
 					<!-- User Menu -->
           <li class="nav-item dropdown has-arrow">
-						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-							<span class="user-img"><img class="rounded-circle" src="assets/img/profiles/avatar-02.jpg" width="31" alt="Ryan Taylor"></span>
-						</a>
-						<div class="dropdown-menu">
-							<div class="user-header">
-								<div class="avatar avatar-sm">
-									<img src="assets/img/profiles/avatar-02.jpg" alt="User Image" class="avatar-img rounded-circle">
-								</div>
-								<div class="user-text">
-									<h6>Rawbati Ilham</h6>
-									<p class="text-muted mb-0">Administrateur</p>
-								</div>
-							</div>
-							<a class="dropdown-item" href="profile.php">My Profile</a>
-							<a class="dropdown-item" href="login.php">Logout</a>
-						</div>
-					</li>
+            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+              <span class="user-img"><img class="rounded-circle" src="<?php echo $_SESSION['admin']['image']; ?>" width="31" alt="Ryan Taylor"></span>
+            </a>
+            <div class="dropdown-menu">
+              <div class="user-header">
+                <div class="avatar avatar-sm">
+                  <img src="<?php echo $_SESSION['admin']['image']; ?>" alt="User Image" class="avatar-img rounded-circle">
+                </div>
+                <div class="user-text">
+                  <h6><?php echo $_SESSION['admin']['nom_adm']." ".$_SESSION['admin']['prenom']; ?></h6>
+                  <p class="text-muted mb-0">Administrateur</p>
+                </div>
+              </div>
+              <a class="dropdown-item" href="profile.php">My Profile</a>
+              <a class="dropdown-item" href="login.php">Logout</a>
+            </div>
+          </li>
 					<!-- /User Menu -->
 
 				</ul>
@@ -135,7 +143,7 @@
 
            <li><a href="students.php">Student List</a></li>
             <li><a href="add-student.php">Student Add</a></li>
-            <li><a href="edit-student.php">Student Edit</a></li>
+
           </ul>
         </li>
         <li class="submenu">
@@ -143,7 +151,7 @@
           <ul>
             <li><a href="teachers.php">Teacher List</a></li>
             <li><a href="add-teacher.php">Teacher Add</a></li>
-            <li><a href="edit-teacher.php">Teacher Edit</a></li>
+
           </ul>
         </li>
         <li class="submenu">
@@ -152,6 +160,7 @@
 
             <li><a href="emprunte-etudiants.php">Liste des étudiants</a></li>
             <li><a href="emprunte-enseignants.php">Liste des enseignants</a></li>
+            <li><a href="add-emprunteur.php">Add emprunteur</a></li>
           </ul>
         </li>
         <li class="submenu">
@@ -180,7 +189,7 @@
                  <a href="#"><i class="fas fa-book"></i> <span>Polycopes</span><span class="menu-arrow"></span></a>
                   <ul>
 
-                 <li><a href="Polycopes.php"> List</a></li>
+                 <li><a href="polycopes.php"> List</a></li>
                  <li><a href="add-polycope.php"> Add</a></li>
 
                    </ul>
@@ -198,6 +207,19 @@
 
           </ul>
         </li>
+
+        <li class="submenu">
+          <a href="#"><i class="fas fa-inbox"></i> <span>Reservations</span> <span class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="reservations.php">les Reservations</a></li>
+
+
+          </ul>
+        </li>
+
+
+
+
       </ul>
     </div>
           </div>
@@ -219,7 +241,7 @@
 								</ul>
 							</div>
 							<div class="col-auto text-right float-right ml-auto">
-								<a href="#" class="btn btn-outline-primary mr-2"><i class="fas fa-download"></i> Download</a>
+
 								<a href="add-student.php" class="btn btn-primary"><i class="fas fa-plus"></i></a>
 							</div>
 						</div>
@@ -280,7 +302,7 @@
                                           <td class="text-right">
                                             <div class="actions">
                                                 <a href="borrow-student.php?cin=<?=$ls[0]?>" class="btn btn-sm bg-success-light mr-2">
-                                                   <i class="fas fa-pen"></i>
+                                                   <i class="fas fa-plus"></i>
                                                 </a>
 
                                             </div>

@@ -9,18 +9,18 @@
    $password = $_POST['pass'];
 
    $result = 1;
-   echo "helo";
+
    try{
-   include_once("conn.php");
-   echo"_hi";
+   include_once("dbAdmin.php");
 
-  $conn = new conn();
 
- if($conn->authentifier($username,$password))
+  $conn = new dbAdmin();
+
+ if($conn->superuser($username,$password))
     { session_start();
-      
 
-      $_SESSION['loggedin']=TRUE;
+
+      $_SESSION['loggedin']=true;
      header('location: index.php');
    }else {
        header('location: login.php?result=2');

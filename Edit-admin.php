@@ -1,17 +1,30 @@
 <?php
-session_start();
-if($_SESSION['loggedin']== false)
-{
-  header("location: logout.php");
-}
-include("Volume.php");
-$volm=new Livre();
-$livres=$volm->listeLivres();
-$volm = new Polycope();
-$fetch=$volm->listePolycopes();
-$volm = new Dictionnaire();
-$dic = $volm->listeDictionnaires();
-?>
+ session_start();
+ if($_SESSION['loggedin']== false)
+ {
+   header("location: logout.php");
+ }
+  /*  session_start();
+    if(!$_SESSION['loggedin'])
+    {
+       header('Location: login.php');
+       exit;
+
+    }*/
+
+    /*  if(ISSET($_GET['id']))
+      {
+
+           $cin = $_GET['id'];
+           include("admin.php");
+           $student = new admin();
+          $fetch = $student->get($cin);
+
+      }*/
+
+
+
+ ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -20,7 +33,7 @@ $dic = $volm->listeDictionnaires();
         <title>Students</title>
 
 		<!-- Favicon -->
-        <link rel="shortcut icon" href="assets/img/biblio.jpg">
+        <link rel="shortcut icon" href="assets/img/favicon.png">
 
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,400&display=swap">
 
@@ -31,14 +44,8 @@ $dic = $volm->listeDictionnaires();
 		<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
 		<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
 
-		<!-- Datatables CSS -->
-		<link rel="stylesheet" href="assets/plugins/datatables/datatables.min.css">
-
 		<!-- Main CSS -->
         <link rel="stylesheet" href="assets/css/style.css">
-        <link rel="stylesheet" href="assets/css/cards.css">
-        <link rel="stylesheet" href="/css/cards-res.css">
-
     </head>
     <body>
 
@@ -63,7 +70,14 @@ $dic = $volm->listeDictionnaires();
 					<i class="fas fa-align-left"></i>
 				</a>
 
-
+				<!-- Search Bar -->
+				<div class="top-nav-search">
+					<form>
+						<input type="text" class="form-control" placeholder="Search here">
+						<button class="btn" type="submit"><i class="fas fa-search"></i></button>
+					</form>
+				</div>
+				<!-- /Search Bar -->
 
 				<!-- Mobile Menu Toggle -->
 				<a class="mobile_btn" id="mobile_btn">
@@ -75,7 +89,7 @@ $dic = $volm->listeDictionnaires();
 				<ul class="nav user-menu">
 
 					<!-- Notifications -->
-					<li class="nav-item dropdown noti-dropdown">
+          <li class="nav-item dropdown noti-dropdown">
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 							<i class="far fa-bell"></i> <span class="badge badge-pill"></span>
 						</a>
@@ -86,16 +100,25 @@ $dic = $volm->listeDictionnaires();
 							</div>
 							<div class="noti-content">
 								<ul class="notification-list">
+                  <?php
+                  include("Volume.php");
+                  $vol = new Volume();
+                  $reservation = $vol->Reservation();
+                   foreach ($reservation as $reser){ ?>
+
 									<li class="notification-message">
 										<a href="#">
+											<div class="media">
+                       <?php echo $reser["nom_Adh"]." Reserver Volume  ".$reser["titre"]; ?>
 
+											</div>
 										</a>
 									</li>
-
+                <?php } ?>
 								</ul>
 							</div>
 							<div class="topnav-dropdown-footer">
-								<a href="#">View all Notifications</a>
+								<a href="reservations.php">View all Notifications</a>
 							</div>
 						</div>
 					</li>
@@ -162,7 +185,7 @@ $dic = $volm->listeDictionnaires();
 
             <li><a href="emprunte-etudiants.php">Liste des étudiants</a></li>
             <li><a href="emprunte-enseignants.php">Liste des enseignants</a></li>
-            <li><a href="add-emprunteur.php">Add emprunteur</a></li>
+            <li> <a href="add-emprunteur.php"> add emprunteur </a> </li>
           </ul>
         </li>
         <li class="submenu">
@@ -210,14 +233,12 @@ $dic = $volm->listeDictionnaires();
           </ul>
         </li>
 
-        <li class="submenu">
-          <a href="#"><i class="fas fa-inbox"></i> <span>Reservations</span> <span class="menu-arrow"></span></a>
-          <ul>
-            <li><a href="reservations.php">les Reservations</a></li>
 
 
-          </ul>
-        </li>
+
+
+
+
 
 
 
@@ -236,118 +257,109 @@ $dic = $volm->listeDictionnaires();
 					<div class="page-header">
 						<div class="row align-items-center">
 							<div class="col">
-								<h3 class="page-title">Les Volumes</h3>
+								<h3 class="page-title">Edit Admin</h3>
 								<ul class="breadcrumb">
-									<li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-									<li class="breadcrumb-item active">Les Volume</li>
+									<li class="breadcrumb-item"><a href="students.php">Admin</a></li>
+									<li class="breadcrumb-item active">Edit Admin</li>
 								</ul>
 							</div>
-
 						</div>
 					</div>
 					<!-- /Page Header -->
+          <div class="row">
+						<div class="col-sm-12">
+
+							<div class="card">
+								<div class="card-body">
+									<form action="saveAdmin.php" method="POST" enctype="multipart/form-data">
+										<div class="row">
+											<div class="col-12">
+												<h5 class="form-title"><span>Admin Information</span></h5>
+											</div>
+                      <div class="col-auto profile-image">
+    										<a href="#">
+    											<img class="rounded-circle" alt="User Image" width="80" src="<?php echo $_SESSION['admin']['image']; ?>">
+    										</a>
+    									</div>
+                      <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                          <label>image</label>
+
+                          <input type="file" name="photo" class="form-control" >
+                        </div>
+                      </div>
+											<div class="col-12 col-sm-6">
+												<div class="form-group">
+													<label>Nom</label>
+													<input type="text" name="name" required class="form-control" value="<?php echo $_SESSION['admin']['nom_adm']; ?>">
+												</div>
+											</div>
+											<div class="col-12 col-sm-6">
+												<div class="form-group">
+													<label>Prénom</label>
+
+													<input type="text" name="prenom"  required class="form-control" value="<?php echo $_SESSION['admin']['prenom']; ?>" >
+												</div>
+											</div>
 
 
-<h1>Les Livres</h1>
-          <div class="tab-content profile-tab-cont">
-
-            <div class="tab-pane fade show active">
-
-
-
-              <div class="row">
-                                    <div class="card" >
-                                        <div class="row  d-flex justify-content-around ">
-                                            <?php
-                                                    foreach ($livres as $output ) {
-                                                        ?>
-                                                <ul  >
-                                                    <li class="booking-card" style="background-image: url('<?php echo $output["image_v"];?>');">
-                                                        <div class="book-container">
-                                                            <div class="content">
-                                                            <a href="newemprunter.php?idliv=<?php echo $output["id_vol"];?>">
-                                                               <?php if($output["status"]=="Available" || $output["status"] == "available"){
-                                                                    echo '  <button class="btn">Réserver</button></a>';
-                                                                  }else {
-                                                                      echo '  <button class="btn">Unavailable</button></a>';
-                                                                  }
-                                                                 ?>
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="informations-container">
-                                                            <h2 class="title"><?php echo $output["titre"];?> </h2>
-
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            <?php }
-
-                                                        ?>
-                                        </div>
-                                    </div>
+                      <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                          <label>Téléphone</label>
+                          <input type="text" name="tele" required class="form-control" value="<?php echo $_SESSION['admin']['tele']; ?>">
+                        </div>
+                      </div>
 
 
-                                 </div>
+
+                      <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                          <label>Email</label>
+                          <input type="text" name="email" required class="form-control" value="<?php echo $_SESSION['admin']['email']; ?>">
+                        </div>
+                      </div>
 
 
-            </div>
-            <h1>Polycope</h1>
-            <div class="tab-pane fade show active">
-              <!-- Personal Details -->
 
 
-              <div class="row">
-                                    <div class="card" >
-                                        <div class="row  d-flex justify-content-around ">
-                                            <?php
-                                                    foreach ($fetch as $output3 ) {
-                                                        ?>
-                                                <ul>
-                                                    <li class="booking-card" style="background-image: url('<?php echo $output3["image_v"];?>');">
-                                                        <div class="book-container">
-                                                            <div class="content">
-                                                            <a href="newemprunter.php?idpoly=<?php echo $output3["id_vol"];?>">
-                                                               <?php if($output3["status"]=="Available" || $output3["status"]=="available"){
-                                                                    echo '  <button class="btn">Réserver</button></a>';
-                                                                  }else {
-                                                                      echo '  <button class="btn">Unavailable</button></a>';
-                                                                  }
-                                                                 ?>
-                                                            </div>
-                                                        </div>
-                                                        <div class="informations-container">
-                                                            <h2 class="title"><?php echo $output3["titre"];?> </h2>
 
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            <?php }
+                      <div class="col-12">
+                        <h5 class="form-title"><span>Login Details</span></h5>
+                      </div>
+                      <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                          <label>Username</label>
+                          <input type="text" name="username" required class="form-control" value="<?php echo $_SESSION['admin']['username'];  ?>">
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                          <label>Password</label>
+                          <input type="text" name="password" required class="form-control" value="<?php echo $_SESSION['admin']['password'];  ?>">
+                        </div>
+                      </div>
 
-                                                        ?>
-                                        </div>
-                                    </div>
+											</div>
 
+											<div class="col-12">
+												<button type="submit" name="update" class="btn btn-primary">Modifier</button>
+											</div>
 
-                                 </div>
-
-
-            </div>
-
-          </div>
-
-				<!-- Footer -->
-				<footer>
-           <p>École Supérieure de Technologie - SAFI.</p>
-				</footer>
-				<!-- /Footer -->
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
+
 			<!-- /Page Wrapper -->
 
         </div>
+		<!-- /Main Wrapper -->
 
-
-		<!--jQuery -->
+		<!-- jQuery -->
         <script src="assets/js/jquery-3.5.1.min.js"></script>
 
 		<!-- Bootstrap Core JS -->
@@ -355,12 +367,9 @@ $dic = $volm->listeDictionnaires();
         <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 
 		<!-- Slimscroll JS -->
-		    <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-		<!-- Datatables JS -->
-		     <script src="assets/plugins/datatables/datatables.min.js"></script>
+		<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
 		<!-- Custom JS -->
-		    <script src="assets/js/script.js"></script>
+		<script src="assets/js/script.js"></script>
     </body>
 </html>

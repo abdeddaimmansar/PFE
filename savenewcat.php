@@ -1,20 +1,44 @@
 <?php
-	if(!isset($_POST["save"])){
-		header("location:add-categorie.php");
-		die();
-	}
-    $id_cat=$_POST["txtid"];
-	$liblecat=$_POST["txtlib"];
-	
+session_start();
+if($_SESSION['loggedin']== false)
+{
+  header("location: logout.php");
+}
+	if(isset($_POST["save"]) || isset($_POST["update"])){
 
-	if( empty($id_cat)|| empty($liblecat)){
+	     $liblecat=$_POST["txtlib"];
+			 $filename = $_FILES["photo"]["name"];
+       if(empty($filename))
+       {
+         $folder = $_SESSION["imagecat"];
+       }
+       else{
+         $tempname = $_FILES["photo"]["tmp_name"];
+        $folder = "assets/img/profiles/".$filename;
+        move_uploaded_file($tempname,$folder);
+
+           }
+
+
+
+	if(empty($folder)|| empty($liblecat)){
 		header('location:add-categorie.php?empty');
 	}else{
-		include("Libelle.php");
-		$cat=new Libelle($id_cat,$liblecat);
-		$cat->addtodata();
-		header("location:categorie.php");
+	   	include("Libelle.php");
+		  $cat = new Libelle();
+      $cat->newEntry($folder,$liblecat);
+      if(isset($_POST["save"]))
+      {
+
+       $cat->addtodata();
+      }
+      else if (ISSET($_POST["update"])) {
+          $cat->updateCat($_SESSION['idcat']);
+      }
+
+
+	header('location: categorie.php');
 	}
 
-
+}
 ?>

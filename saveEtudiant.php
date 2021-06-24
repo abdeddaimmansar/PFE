@@ -1,5 +1,9 @@
 <?php
-
+session_start();
+if($_SESSION['loggedin']== false)
+{
+  header("location: logout.php");
+}
 	if(!isset($_POST["ajouter"])){
 		header("location: add-student.php");
 		die();
@@ -11,7 +15,7 @@
 	  $cne=$_POST["cne"];
 
 
-    $id_Adh = $_POST["id"];
+    $cin = $_POST["cin"];
     $depar=$_POST["depar"];
     $tele=$_POST["tele"];
     $email=$_POST["email"];
@@ -23,14 +27,14 @@
 		$filename = $_FILES["photo"]["name"];
 		$tempname = $_FILES["photo"]["tmp_name"];
 		$folder = "assets/img/profiles/".$filename;
-	 move_uploaded_file($tempname,$folder);
- if( empty($nom)|| empty($prenom) || empty($folder)|| empty($depar) || empty($tele)
+	   move_uploaded_file($tempname,$folder);
+ if(empty($cin)||empty($nom)|| empty($prenom) || empty($folder)|| empty($depar) || empty($tele)
 		 || empty($email) || empty($nbr_emprunt)){
 	 header('location:add-student.php?empty');
  }else{
-	   include("Adherent.php");
+	 include("Adherent.php");
 	 $en=new Etudiant();
-	 $en->newEntry($id_Adh,$nom,$prenom,$folder,$depar,$tele,$email,$nbr_emprunt,$cne,$filiere,$annee);
+	 $en->newEntry($cin,$nom,$prenom,$folder,$depar,$tele,$email,$nbr_emprunt,$cne,$filiere,$annee);
 	 $en->addtodata();
 	 header("location:students.php");
 }}
